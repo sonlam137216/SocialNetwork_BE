@@ -26,6 +26,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+app.get('/getdata', async (req, res) => {
+    res.json({success: true, message: 'get data successfully',info: {name: 'thai', password: "123"}})
+})
+
 
 // app.use('/api/post', authRouter)
 

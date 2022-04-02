@@ -11,6 +11,7 @@ const postSchema = new Schema({
         type: String,
         required: true
     },
+    
     refreshToken: {
         type: String,
         require: true
