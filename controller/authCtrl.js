@@ -20,21 +20,24 @@ const generateTokens = (payload) => {
 };
 
 const updateRefreshToken = async (user, refreshToken) => {
+  const {username, password} = user
+  console.log(refreshToken);
   try {
     let updatedRefreshToken = {
-      ...user,
+      username,
+      password,
       refreshToken: refreshToken,
     };
-    const userCondition = await User.find({_id: user._id})
-    console.log(userCondition)
+    console.log(updatedRefreshToken);
     
     const userUpdateCondition = { _id: user._id };
 
-    updatedRefreshToken = await User.findOneAndUpdate(
+    updatedRefreshToken = await User.findByIdAndUpdate(
       userUpdateCondition,
       updatedRefreshToken,
       { new: true }
     );
+    console.log(updatedRefreshToken)
 
     if(!updatedRefreshToken) console.log('can not update refreshToken')
   } catch (error) {
@@ -114,7 +117,6 @@ const authCtrl = {
 
       // all  good
       // return token
-      console.log(user);
       const tokens = generateTokens(user);
 
       //update refressh token
@@ -137,7 +139,7 @@ const authCtrl = {
 
     try {
       const user = await User.findOne({ refreshToken })
-      if(!user) return res.status(403).json({success: false, message: 'Not found refreshToken'})
+      if(!user) return res.status(403).json({success: false, message: 'Not found user'})
 
       jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
       const tokens = generateTokens(user)
