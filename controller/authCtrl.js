@@ -3,15 +3,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const generateTokens = (payload) => {
-  const { username, password } = payload;
+  const { email, password } = payload;
 
   const accessToken = jwt.sign(
-    { username, password },
+    { email, password },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '15s' }
   );
   const refreshToken = jwt.sign(
-    { username, password },
+    { email, password },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '5m' }
   );
@@ -20,11 +20,11 @@ const generateTokens = (payload) => {
 };
 
 const updateRefreshToken = async (user, refreshToken) => {
-  const {username, password} = user
+  const {email, password} = user
   console.log(refreshToken);
   try {
     let updatedRefreshToken = {
-      username,
+      email,
       password,
       refreshToken: refreshToken,
     };
@@ -47,20 +47,20 @@ const updateRefreshToken = async (user, refreshToken) => {
 
 const authCtrl = {
   register: async (req, res) => {
-    const { username, password, confirmPassword } = req.body;
+    const { email, password, confirmPassword } = req.body;
 
     //simple validation
-    if (!username || !password)
+    if (!email || !password)
       return res
         .status(400)
-        .json({ success: false, message: 'Missing username or password' });
+        .json({ success: false, message: 'Missing email or password' });
 
     try {
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ email });
       if (user)
         return res
           .status(400)
-          .json({ success: false, message: 'username already taken' });
+          .json({ success: false, message: 'email already taken' });
 
       if (password !== confirmPassword)
         return res
@@ -71,10 +71,10 @@ const authCtrl = {
       const hashedPassword = await bcrypt.hash(password, 12);
 
       //jwt
-      const tokens = generateTokens({ username, password });
+      const tokens = generateTokens({ email, password });
 
       const newUser = new User({
-        username,
+        email,
         password: hashedPassword,
         refreshToken: tokens.refreshToken,
       });
@@ -94,19 +94,19 @@ const authCtrl = {
   },
 
   login: async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password)
+    const { email, password } = req.body;
+    if (!email || !password)
       return res
         .status(400)
-        .json({ success: false, message: 'Missing username ' });
+        .json({ success: false, message: 'Missing email ' });
 
     try {
       // check user existing
-      const user = await User.findOne({ username });
+      const user = await User.findOne({ email });
       if (!user)
         return res
           .status(400)
-          .json({ success: false, message: 'Incorrect username' });
+          .json({ success: false, message: 'Incorrect email' });
 
       const passwordValid = await bcrypt.compare(password, user.password);
 
