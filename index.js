@@ -2,6 +2,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 
+const postRouter = require('./routes/postRouter')
+
 
 require('dotenv').config()
 
@@ -26,9 +28,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get('/getdata', async (req, res) => {
-    res.json({success: true, message: 'get data successfully',info: {name: 'thai', password: "123"}})
-})
+app.use('/api/posts', postRouter)
 
 
 // app.use('/api/post', authRouter)
