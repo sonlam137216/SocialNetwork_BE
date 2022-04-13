@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 const postRouter = require('./routes/postRouter')
+const homeRouter = require('./routes/homeRouter')
+const userRouter = require('./routes/userRouter')
 
 
 require('dotenv').config()
@@ -29,7 +31,8 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/api/posts', postRouter)
-
+app.use('/api/home', homeRouter)
+app.use('/api/user', userRouter)
 
 // app.use('/api/post', authRouter)
 
