@@ -11,10 +11,24 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    refreshToken: {
+    avatar: {
         type: String,
-        require: true
+        default: ''
     },
+    role: {
+        type: String,
+        default: 'male'
+    },
+    mobile: {
+        type: String,
+        default: ''
+    },
+    address: {
+        type: String,
+        default: ''
+    },
+    followers: [{type: mongoose.Types.ObjectId, ref: 'users'}],
+    following: [{type: mongoose.Types.ObjectId, ref: 'users'}],
     createdAt: {
         type: Date,
         default: Date.now()
