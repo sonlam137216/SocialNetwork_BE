@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const users = require('../model/userModel')
+const posts = require('../model/postModel')
 
 const commentSchema = new Schema({
     content: {
@@ -7,10 +9,10 @@ const commentSchema = new Schema({
         required: true
     },
     tag: Object,
-    reply: mongoose.Types.ObjectId,
+    reply: [{type: mongoose.Types.ObjectId, ref: 'comments'}],
     likes: [{type: mongoose.Types.ObjectId, ref: 'users'}],
     user: {type: mongoose.Types.ObjectId, ref: 'users'},
-    postId: mongoose.Types.ObjectId,
-    postUserId: mongoose.Types.ObjectId
+    postId: {type: mongoose.Types.ObjectId, ref: 'posts'},
+    postUserId: {type: mongoose.Types.ObjectId, ref: 'users'}
 })
-module.exports = mongoose.model('comment', commentSchema)
+module.exports = mongoose.model('comments', commentSchema)

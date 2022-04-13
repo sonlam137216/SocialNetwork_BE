@@ -2,7 +2,7 @@ POST http://localhost:5001/api/auth/register
 Content-Type: application/json
 
 {
-    "email": "thai@gmail.com",
+    "email": "nhu@gmail.com",
     "password": "123",
     "confirmPassword": "123"
 }
@@ -12,15 +12,14 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "son2@gmail.com",
+    "email": "nhu@gmail.com",
     "password": "123"
 }
 
 
 ###
 GET http://localhost:3001/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NDk1NzUyMTgsImV4cCI6MTY0OTU3ODgxOH0.jeNeNZEbJqElw9qZo0FS8fpSv4BQdJ9mE4H6zylLdCU
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2N2ZlMDU1MDkyODFiZjk5ZTlmODUiLCJpYXQiOjE2NDk4Mzc4MDUsImV4cCI6MTY0OTg0MTQwNX0.areRVDbDceneuX-yfdHX68YB-XcwPNLc6xUChTjlMXU
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
@@ -29,3 +28,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 {
     "content": " thai post 2"
 }
+
+###
+GET http://localhost:3001/api/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2N2ZlMDU1MDkyODFiZjk5ZTlmODUiLCJpYXQiOjE2NDk4MzcxNzYsImV4cCI6MTY0OTg0MDc3Nn0.WECEg0gLRvPxl17CQB4jIdWxZJ0paeESENweiybsPn8
