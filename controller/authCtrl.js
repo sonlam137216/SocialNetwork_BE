@@ -3,17 +3,18 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const generateTokens = (payload) => {
-  const { email, password } = payload;
+  const { _id } = payload;
+  console.log(_id)
 
   const accessToken = jwt.sign(
-    { email, password },
+    { userId: _id },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '15s' }
+    { expiresIn: '1h' }
   );
   const refreshToken = jwt.sign(
-    { email, password },
+    { userId: _id },
     process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: '5m' }
+    { expiresIn: '10h' }
   );
 
   return { accessToken, refreshToken };
@@ -45,7 +46,7 @@ const updateRefreshToken = async (user, refreshToken) => {
   }
 };
 
-const authCtrl = {
+const userCtrl = {
   register: async (req, res) => {
     const { email, password, confirmPassword } = req.body;
 
@@ -70,14 +71,13 @@ const authCtrl = {
       // all good
       const hashedPassword = await bcrypt.hash(password, 12);
 
-      //jwt
-      const tokens = generateTokens({ email, password });
-
       const newUser = new User({
         email,
         password: hashedPassword,
-        refreshToken: tokens.refreshToken,
       });
+      //jwt
+      const tokens = generateTokens(newUser);
+
       await newUser.save();
 
       res.json({
@@ -120,8 +120,7 @@ const authCtrl = {
       const tokens = generateTokens(user);
 
       //update refressh token
-      updateRefreshToken(user, tokens.refreshToken)
-
+      //updateRefreshToken(user, tokens.refreshToken)
 
       res.json({
         success: true,
@@ -155,4 +154,4 @@ const authCtrl = {
   },
 };
 
-module.exports = authCtrl;
+module.exports = userCtrl;

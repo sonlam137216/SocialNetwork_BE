@@ -1,24 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+const users = require('../model/userModel')
 
 const postSchema = new Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
+    content: String,
+    images: {
+        type: Array,
         required: true
     },
-    
-    refreshToken: {
-        type: String,
-        require: true
-    },
+    likes: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
+    comments: [{ type: mongoose.Types.ObjectId, ref: 'comment' }],
+    user: {type: mongoose.Types.ObjectId, ref: users},
     createdAt: {
-        type: Date,
-        default: Date.now()
+      type: Date,
+      default: Date.now()
     }
 })
 
