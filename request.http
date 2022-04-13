@@ -12,20 +12,20 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "son2@gmail.com",
+    "email": "thai@gmail.com",
     "password": "123"
 }
 
 
 ###
 GET http://localhost:3001/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NDk1NzUyMTgsImV4cCI6MTY0OTU3ODgxOH0.jeNeNZEbJqElw9qZo0FS8fpSv4BQdJ9mE4H6zylLdCU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NDk4NjA1NjcsImV4cCI6MTY0OTg5NjU2N30.XvewurhEPkHZfbNDV5feBJZknYqAuTtlbfh-YlR674E
 
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NDk1NzUyMTgsImV4cCI6MTY0OTU3ODgxOH0.jeNeNZEbJqElw9qZo0FS8fpSv4BQdJ9mE4H6zylLdCU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk3Njk5NzcsImV4cCI6MTY0OTc3MzU3N30.69sw30iL0AzFjVS08XLb7QKQvb8muHzqTqjMSFZrfcY
 
 {
-    "content": " thai post 2"
+    "content": "thai post 1 "
 }
