@@ -8,11 +8,19 @@ const commentSchema = new Schema({
         type: String,
         required: true
     },
-    tag: Object,
+    tag: [{type: mongoose.Types.ObjectId, ref: 'users'}],
     reply: [{type: mongoose.Types.ObjectId, ref: 'comments'}],
+    // parent: {type: mongoose.Types.ObjectId, ref: 'comments'},
     likes: [{type: mongoose.Types.ObjectId, ref: 'users'}],
     user: {type: mongoose.Types.ObjectId, ref: 'users'},
     postId: {type: mongoose.Types.ObjectId, ref: 'posts'},
     postUserId: {type: mongoose.Types.ObjectId, ref: 'users'}
-})
+},  {
+    timestamps: true,
+    toJSON: {
+        virtuals: true
+    }
+});
+
 module.exports = mongoose.model('comments', commentSchema)
+
