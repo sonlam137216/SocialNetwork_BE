@@ -83,6 +83,16 @@ const commentCtrl = {
     try {
       const deleted = await Comment.deleteOne({_id: mongoose.Types.ObjectId(req.params.commentId)});
 
+      const pop_cmts = await Comment.find({reply: mongoose.Types.ObjectId(req.params.commentId)}, (err, cmts) => {
+        cmts.forEach((cmt) => {
+          cmt.updateOne({$pull: {reply: mongoose.Types.ObjectId(req.params.commentId)}}, function(err) {
+            if (err){
+              console.log(err);
+            }});
+        });
+      }).clone().catch(function(err){ 
+        console.log(err);
+      });
       res.json({ success: true, message: 'delete comment successfully!', deleted });
     } catch (error) {
       console.log(error);
