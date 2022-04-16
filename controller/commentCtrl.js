@@ -6,7 +6,19 @@ const commentCtrl = {
   getComments: async (req, res) => {
     try {
       const cmts = await Comment.find({ postId: req.params.postId})
-      .populate({path: 'reply', populate: {path: 'reply'}});
+      .populate({
+        path: 'reply', 
+        populate: [{
+          path: 'reply', 
+          populate: [{
+            path: 'reply', 
+            populate: [{path: 'reply'}, {path: 'user'}
+            ]}, 
+            {path: 'user'}
+          ]}, 
+          {path: 'user'}]
+      })
+      .populate({path: 'user'});
       // const cmts = await Comment.find({ postId: req.params.postId }).populate('children');
 
       res.json({ success: true, cmts });
