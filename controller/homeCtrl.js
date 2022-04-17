@@ -9,7 +9,9 @@ const homeCtrl = {
         })
         const posts = await Post.find({
             user: user.following
-        }).sort({createdAt: -1});
+        })
+        .populate({path: 'user'})
+        .sort({createdAt: -1});
         if(!posts) {
             res.status(404).json({ error: "not found" })
             return;
@@ -24,19 +26,22 @@ const homeCtrl = {
 
   getRelateUser: async (req, res) => {
     try {
+
         const user = await User.findOne({
             _id: req.userId
         })
-        //console.log(user.following)
+        let relateUsers = []
 
-        user.following.forEach(async function(element) {
+        user.following.forEach(async function(element) {      
           const relateUser = await User.find({
-            $and: [{ followers: { $in: element } }, { followers: { $ne: user._id } }]
+            $and: [{ followers: { $in: element } }, { followers: { $ne: req.userId } }]
           })
+          relateUsers = relateUsers.concat(relateUser)
+          console.log(relateUsers)
+        });
+
+        res.json({success: true, relateUsers})        
         
-      });
-                
-        res.json({success: true, relateUser})
     } catch (e) {
         console.log(`api, ${e}`);
         res.status(500).json({ error: e });

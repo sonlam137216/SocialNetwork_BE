@@ -12,7 +12,7 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "son@gmail.com",
+    "email": "khang@gmail.com",
     "password": "123"
 }
 
@@ -36,7 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 
 ###
 GET http://localhost:3001/api/home/relate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg0MDIsImV4cCI6MTY0OTg2MjAwMn0.2YNXoxMFAwvfoKMrvuCrCdxdDifYQ0wWLfpxyB243f0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NjA0NTIsImV4cCI6MTY0OTg2NDA1Mn0.c1gsV_esYhJTmmydwgb4yPaNno2o6-g-gpSNwtdWhYA.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg0MDIsImV4cCI6MTY0OTg2MjAwMn0.2YNXoxMFAwvfoKMrvuCrCdxdDifYQ0wWLfpxyB243f0
 
 ###
 POST http://localhost:3001/api/user/search
@@ -51,7 +51,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 ###
 PATCH http://localhost:3001/api/user/user/625283db28644968034d08a3/follow
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg1NDksImV4cCI6MTY0OTg2MjE0OX0.w_wvoI0WaNx_x--UXVRVQPbPy3ZNCkkxi6eGZ3rCG8E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NjAzNzEsImV4cCI6MTY0OTg2Mzk3MX0.f2ETC1oOsIS9peTw2EOpEBeXBNoOm1l_UgRfBvjqZgs
 
 
 ###
