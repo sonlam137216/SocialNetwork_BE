@@ -32,12 +32,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 ###
 GET http://localhost:3001/api/comments/6252854a4c49cb901069a280
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAwODIxMTcsImV4cCI6MTY1MDA4NTcxN30.-bJRwzrVQBNzbklELR_SPMAkFZxmTyd44_NScE49GEI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAxNzE5ODUsImV4cCI6MTY1MDE3NTU4NX0.wgyZgJYHx0ofrcRP5Ua0pbQmgO7wkd4zkz_4TuArh6Y
 
 ###
-POST http://localhost:3001/api/comments/6252854a4c49cb901069a280/62596737bf7fd815bf4d0fe0
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAwMzc0NzMsImV4cCI6MTY1MDA0MTA3M30.IjX3WR7RC-Ml4PLIWezmpHIPP6WPOHy1LEmJUKEpvcQ
+POST http://localhost:3001/api/comments/6252854a4c49cb901069a280/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTAxNzIzNTcsImV4cCI6MTY1MDE3NTk1N30.qSDgDw_MFoFxeG9sNm80R7xhuyhShUflCL_rJDxoWa4
 
 {
-    "content": " nhu comment 2-2-1"
+    "content": " thai comment 1"
 }
