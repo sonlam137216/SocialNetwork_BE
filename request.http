@@ -58,3 +58,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 PATCH http://localhost:3001/api/user/user/625285323f4b2dfa0546533c/unfollow
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTk0NDYsImV4cCI6MTY0OTg2MzA0Nn0.H6HkejMxiz9yDqjbYqJIOx9GfO11P0U_EpfeGlq2LTc
+
+
+###
+GET http://localhost:3001/api/home/relate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NjE1NTksImV4cCI6MTY0OTg5NzU1OX0.TVxFU4Ng3hC62hfbte8gQJHi8x-LwUSCv4UUYGiiYvM

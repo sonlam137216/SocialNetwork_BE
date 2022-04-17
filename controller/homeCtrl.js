@@ -27,16 +27,19 @@ const homeCtrl = {
         const user = await User.findOne({
             _id: req.userId
         })
-        //console.log(user.following)
-
-        user.following.forEach(async function(element) {
-          const relateUser = await User.find({
-            $and: [{ followers: { $in: element } }, { followers: { $ne: user._id } }]
-          })
         
-      });
+        
+        const following = user.following;
+
+        const relateUsers = []
+
+        const relates = await following.map( async (item) => {
+          const relateUser = await User.find({ _id: item})
+          return relateUser;
+        });
+        console.log(relates)
                 
-        res.json({success: true, relateUser})
+        res.json({success: true, message: "get relate user success", relates})
     } catch (e) {
         console.log(`api, ${e}`);
         res.status(500).json({ error: e });
