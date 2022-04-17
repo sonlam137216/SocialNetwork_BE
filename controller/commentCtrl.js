@@ -32,7 +32,7 @@ const commentCtrl = {
 
   createComment: async (req, res) => {
     const { content } = req.body;
-    console.log(req);
+    // console.log(req);
     if (!content)
       return res
         .status(400)
