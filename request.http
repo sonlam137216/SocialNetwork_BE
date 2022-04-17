@@ -41,3 +41,48 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 {
     "content": " nhu comment 2-2-1"
 }
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTY0MjIsImV4cCI6MTY0OTg2MDAyMn0.gq-u76mrZvdA7wvVwRzEv_7aV6waQnvJ16fI5Qzql6w
+
+###
+POST http://localhost:3001/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NDk4NTYyNzAsImV4cCI6MTY0OTg1OTg3MH0.JV9SlkIb1z9zQd22lDN2ibmZV6NwYjVQMFzNo8OJyVM
+
+{
+    "content": " Vay thi chung ta la gi"
+}
+
+###
+GET http://localhost:3001/api/home/post
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg1NDksImV4cCI6MTY0OTg2MjE0OX0.w_wvoI0WaNx_x--UXVRVQPbPy3ZNCkkxi6eGZ3rCG8E
+
+###
+GET http://localhost:3001/api/home/relate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg0MDIsImV4cCI6MTY0OTg2MjAwMn0.2YNXoxMFAwvfoKMrvuCrCdxdDifYQ0wWLfpxyB243f0
+
+###
+POST http://localhost:3001/api/user/search
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTk0NDYsImV4cCI6MTY0OTg2MzA0Nn0.H6HkejMxiz9yDqjbYqJIOx9GfO11P0U_EpfeGlq2LTc
+
+{
+    "search": "@"
+}
+
+
+###
+PATCH http://localhost:3001/api/user/user/625283db28644968034d08a3/follow
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg1NDksImV4cCI6MTY0OTg2MjE0OX0.w_wvoI0WaNx_x--UXVRVQPbPy3ZNCkkxi6eGZ3rCG8E
+
+
+###
+PATCH http://localhost:3001/api/user/user/625285323f4b2dfa0546533c/unfollow
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTk0NDYsImV4cCI6MTY0OTg2MzA0Nn0.H6HkejMxiz9yDqjbYqJIOx9GfO11P0U_EpfeGlq2LTc
+
+
+###
+GET http://localhost:3001/api/home/relate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NjE1NTksImV4cCI6MTY0OTg5NzU1OX0.TVxFU4Ng3hC62hfbte8gQJHi8x-LwUSCv4UUYGiiYvM
+
