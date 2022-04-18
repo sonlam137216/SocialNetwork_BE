@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 const postRouter = require('./routes/postRouter')
+const commentRouter = require('./routes/commentRouter')
+
 const homeRouter = require('./routes/homeRouter')
 const userRouter = require('./routes/userRouter')
 
@@ -31,6 +33,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/api/posts', postRouter)
+app.use('/api/comments', commentRouter)
 app.use('/api/home', homeRouter)
 app.use('/api/user', userRouter)
 

@@ -26,27 +26,33 @@ const homeCtrl = {
 
   getRelateUser: async (req, res) => {
     try {
+        //  Lấy user hiện tại
+        const currentUser = await User.findOne({
+            _id: req.userId,
+        });
+        // Lấy user mà user hiện tại đang follow
 
-        const user = await User.findOne({
-            _id: req.userId
-        })
-        let relateUsers = []
-
-        user.following.forEach(async function(element) {      
-          const relateUser = await User.find({
-            $and: [{ followers: { $in: element } }, { followers: { $ne: req.userId } }]
-          })
-          relateUsers = relateUsers.concat(relateUser)
-          console.log(relateUsers)
+        const usersWhomCurrentUserFollow = await User.find({
+            _id: { $in: currentUser.following },
         });
 
-        res.json({success: true, relateUsers})        
-        
+        const resolveToFollowingArray = usersWhomCurrentUserFollow
+            .map((user) => {
+                return ${user.following};
+            })
+            .join(',')
+            .split(',');
+        const finalUsers = await User.find({
+            _id: { $in: resolveToFollowingArray },
+        });
+        const finalOfFinalUsers = finalUsers.filter((final) => !final.following.includes(currentUser._id));
+
+        res.json({ success: true, finalOfFinalUsers });
     } catch (e) {
-        console.log(`api, ${e}`);
+        console.log(api, ${e});
         res.status(500).json({ error: e });
     }
-  },
+},
 
 };
 
