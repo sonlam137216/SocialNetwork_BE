@@ -38,7 +38,7 @@ const homeCtrl = {
 
         const resolveToFollowingArray = usersWhomCurrentUserFollow
             .map((user) => {
-                return ${user.following};
+                return $user.following;
             })
             .join(',')
             .split(',');
@@ -49,7 +49,7 @@ const homeCtrl = {
 
         res.json({ success: true, finalOfFinalUsers });
     } catch (e) {
-        console.log(api, ${e});
+        console.log(api, $e);
         res.status(500).json({ error: e });
     }
 },
