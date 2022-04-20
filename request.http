@@ -12,14 +12,36 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "son@gmail.com",
+    "email": "nhu@gmail.com",
     "password": "123"
 }
 
 
 ###
 GET http://localhost:3001/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA0NjY5NjgsImV4cCI6MTY1MDUwMjk2OH0.Q5y-lQkl5ma8xzAwGdq8KRVpr8ms6qrNy_8Ji0cZjz4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NDk5ODQ1NDIsImV4cCI6MTY0OTk4ODE0Mn0.A7hTh74x6Y5q6Y-NdeDb1uHmCgj_HkZI00rR1GI1gIM
+###
+POST http://localhost:3001/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NDk5ODQ5NDcsImV4cCI6MTY0OTk4ODU0N30.WPU32w3HHnnNTgHY04XFszxwLbKWHE8oDo_SxFqkiCI
+
+{
+    "content": " nhu post 3"
+}
+
+###
+GET http://localhost:3001/api/comments/6252854a4c49cb901069a280
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAwODIxMTcsImV4cCI6MTY1MDA4NTcxN30.-bJRwzrVQBNzbklELR_SPMAkFZxmTyd44_NScE49GEI
+
+###
+POST http://localhost:3001/api/comments/6252854a4c49cb901069a280/62596737bf7fd815bf4d0fe0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAwMzc0NzMsImV4cCI6MTY1MDA0MTA3M30.IjX3WR7RC-Ml4PLIWezmpHIPP6WPOHy1LEmJUKEpvcQ
+
+{
+    "content": " nhu comment 2-2-1"
+}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTY0MjIsImV4cCI6MTY0OTg2MDAyMn0.gq-u76mrZvdA7wvVwRzEv_7aV6waQnvJ16fI5Qzql6w
 
 ###
 POST http://localhost:3001/api/posts
@@ -66,3 +88,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 ###
 GET http://localhost:3001/api/home/relate
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NjE1NTksImV4cCI6MTY0OTg5NzU1OX0.TVxFU4Ng3hC62hfbte8gQJHi8x-LwUSCv4UUYGiiYvM
+
