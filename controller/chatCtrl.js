@@ -4,8 +4,10 @@ const Conversation = require('../model/conversationModel')
 
 const chatCtrl = {
     createConversation: async (req, res) => {
-        const { name } = req.body;
-    
+        const { name, usersId } = req.body;
+
+        usersId.push(req.userId);
+
         //simple validation
         if (!name)
           return res
@@ -15,7 +17,7 @@ const chatCtrl = {
         try {
           const newConversation = new Conversation({
             name: name,
-            members: req.userId
+            members: usersId
           });
     
           await newConversation.save();
@@ -29,7 +31,9 @@ const chatCtrl = {
     
     getConversations: async (req, res) => {
     try {
-        const conversation = await Conversation.find()
+        const conversation = await Conversation.find({
+          members: req.userId
+        })
 
         if(!conversation) {
             res.status(404).json({ error: "not found" })
@@ -44,12 +48,17 @@ const chatCtrl = {
     },
 
   addMember: async (req, res) => {
+    const { usersId } = req.body;
+    
+        //simple validation
+        if (!usersId)
+          return res
+            .status(400)
+            .json({ success: false, message: '0 user' });
+    
     try {
       const conversation = await Conversation.find({
         _id: req.params.conId,
-      }).exec();
-      const user = await User.find({
-        _id: req.params.userId,
       }).exec();
 
     //   if (user.length!=0)
@@ -59,12 +68,12 @@ const chatCtrl = {
 
       const addUser = await Conversation.findByIdAndUpdate(
         { _id: req.params.conId },
-        { $push: { members: req.params.userId } },
+        { $push: { members: usersId } },
         { new: true }
       );
 
 
-      res.json({ success: true, message: 'add user successful', user });
+      res.json({ success: true, message: 'add user successful', usersId});
     } catch (error) {
       console.log(error);
       res
