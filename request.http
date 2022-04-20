@@ -69,6 +69,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
     "search": "@"
 }
 
+###
+GET http://localhost:3001/api/user/user/625283db28644968034d08a3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA0NjY5NjgsImV4cCI6MTY1MDUwMjk2OH0.Q5y-lQkl5ma8xzAwGdq8KRVpr8ms6qrNy_8Ji0cZjz4
 
 ###
 PATCH http://localhost:3001/api/user/user/625283db28644968034d08a3/follow
