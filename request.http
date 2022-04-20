@@ -12,7 +12,7 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "son@gmail.com",
+    "email": "khang@gmail.com",
     "password": "123"
 }
 
@@ -36,12 +36,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 
 ###
 GET http://localhost:3001/api/home/relate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg0MDIsImV4cCI6MTY0OTg2MjAwMn0.2YNXoxMFAwvfoKMrvuCrCdxdDifYQ0wWLfpxyB243f0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NzA1ODcsImV4cCI6MTY0OTg3NDE4N30.Ec8X79_P1Mj7o16Quhh-US5CUYUM0I603VXRgH65kjs
 
 ###
 POST http://localhost:3001/api/user/search
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTk0NDYsImV4cCI6MTY0OTg2MzA0Nn0.H6HkejMxiz9yDqjbYqJIOx9GfO11P0U_EpfeGlq2LTc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NzA1MDAsImV4cCI6MTY0OTg3NDEwMH0.CvR6j92oCFC196UcB9lf8fTOsUMccC5V76kn6fBq0Uw
 
 {
     "search": "@"
@@ -49,9 +49,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 
 
 ###
-PATCH http://localhost:3001/api/user/user/625283db28644968034d08a3/follow
+PATCH http://localhost:3001/api/user/user/6256ce6cc207a4e71fc5eec4/follow
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NTg1NDksImV4cCI6MTY0OTg2MjE0OX0.w_wvoI0WaNx_x--UXVRVQPbPy3ZNCkkxi6eGZ3rCG8E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NzA1MDAsImV4cCI6MTY0OTg3NDEwMH0.CvR6j92oCFC196UcB9lf8fTOsUMccC5V76kn6fBq0Uw
 
 
 ###
