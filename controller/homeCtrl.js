@@ -36,20 +36,26 @@ const homeCtrl = {
                 _id: { $in: currentUser.following },
             });
 
+            console.log(usersWhomCurrentUserFollow);
+
             const resolveToFollowingArray = usersWhomCurrentUserFollow
                 .map((user) => {
-                    return $user.following;
+                    return `${user.following}`;
                 })
                 .join(',')
-                .split(',');
+                .split(',')
+                .filter((item) => {
+                    return item != '';
+                });
+            console.log(resolveToFollowingArray);
             const finalUsers = await User.find({
                 _id: { $in: resolveToFollowingArray },
             });
-            const finalOfFinalUsers = finalUsers.filter((final) => !final.following.includes(currentUser._id));
+            const finalOfFinalUsers = finalUsers.filter((final) => !final.followers.includes(currentUser._id));
 
             res.json({ success: true, finalOfFinalUsers });
         } catch (e) {
-            console.log(api, $e);
+            console.log(`api: ${e}`);
             res.status(500).json({ error: e });
         }
     },
