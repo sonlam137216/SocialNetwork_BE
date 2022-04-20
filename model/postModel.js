@@ -10,7 +10,7 @@ const postSchema = new Schema({
     },
     likes: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
     comments: [{ type: mongoose.Types.ObjectId, ref: 'comment' }],
-    user: {type: mongoose.Types.ObjectId, ref: users},
+    user: {type: mongoose.Types.ObjectId, ref: 'users'},
     createdAt: {
       type: Date,
       default: Date.now()

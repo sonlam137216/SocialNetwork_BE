@@ -9,7 +9,7 @@ const generateTokens = (payload) => {
   const accessToken = jwt.sign(
     { userId: _id },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '1h' }
+    { expiresIn: '10h' }
   );
   const refreshToken = jwt.sign(
     { userId: _id },
