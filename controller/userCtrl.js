@@ -1,14 +1,28 @@
-const { ObjectId } = require('mongodb');
+const { ObjectId, CURSOR_FLAGS } = require('mongodb');
 const User = require('../model/userModel');
 
 const userCtrl = {
+  getUser: async (req, res) => {
+    const userId = req.params.id;
+    try {
+      const user = await User.findById(userId)
+        .select('-password')
+        .populate('followers following', '-password').populate('post')
+      if (!user)
+        res.status(400).json({ success: false, message: 'Not found User' });
+      res.json({ success: true, message: 'Get user success', user });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'Interal server error' });
+    }
+  },
   follow: async (req, res) => {
     try {
       const user = await User.find({
         _id: req.userId,
         following: req.params.id,
       }).exec();
-      if (user.length!=0)
+      if (user.length != 0)
         return res
           .status(400)
           .json({ success: true, message: 'You have followed this user!' });
@@ -38,7 +52,7 @@ const userCtrl = {
       const unfollowUser = await User.findOneAndUpdate(
         { _id: req.userId },
         {
-          $pull: { following: req.params.id }
+          $pull: { following: req.params.id },
         }
       );
 
@@ -74,8 +88,8 @@ const userCtrl = {
 
     try {
       const users = await User.find({
-        email: { $regex: search } 
-    });
+        email: { $regex: search },
+      });
 
       res.json({ success: true, users });
     } catch (error) {
