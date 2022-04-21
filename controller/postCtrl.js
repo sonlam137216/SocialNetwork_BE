@@ -66,9 +66,10 @@ const postCtrl = {
         { new: true }
       );
 
-      if(!post) return res.status(400).json({message: "This post does not exist!"})
+      if (!post)
+        return res.status(400).json({ message: 'This post does not exist!' });
 
-      res.json({message: "Unlike post!"});
+      res.json({ message: 'Unlike post!' });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: 'Internal server error!' });
