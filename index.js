@@ -8,7 +8,11 @@ const commentRouter = require('./routes/commentRouter')
 const homeRouter = require('./routes/homeRouter')
 const userRouter = require('./routes/userRouter')
 
+
+const chatRouter = require('./routes/chatRouter')
+
 const Comments = require('./model/commentModel')
+
 
 require('dotenv').config()
 
@@ -100,6 +104,7 @@ app.use('/api/posts', postRouter)
 app.use('/api/comments', commentRouter)
 app.use('/api/home', homeRouter)
 app.use('/api/user', userRouter)
+app.use('/api/chat', chatRouter)
 
 // app.use('/api/post', authRouter)
 

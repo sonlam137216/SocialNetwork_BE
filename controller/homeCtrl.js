@@ -9,7 +9,9 @@ const homeCtrl = {
         })
         const posts = await Post.find({
             user: user.following
-        }).sort({createdAt: -1});
+        })
+        .populate({path: 'user'})
+        .sort({createdAt: -1});
         if(!posts) {
             res.status(404).json({ error: "not found" })
             return;
@@ -24,27 +26,36 @@ const homeCtrl = {
 
   getRelateUser: async (req, res) => {
     try {
-        const user = await User.findOne({
-            _id: req.userId
-        })
-        
-        
-        const following = user.following;
-
-        const relateUsers = []
-
-        const relates = await following.map( async (item) => {
-          const relateUser = await User.find({ _id: item})
-          return relateUser;
+        //  Lấy user hiện tại
+        const currentUser = await User.findOne({
+            _id: req.userId,
         });
-        console.log(relates)
-                
-        res.json({success: true, message: "get relate user success", relates})
+        // Lấy user mà user hiện tại đang follow
+
+        const usersWhomCurrentUserFollow = await User.find({
+            _id: { $in: currentUser.following },
+        });
+
+        const resolveToFollowingArray = usersWhomCurrentUserFollow
+            .map((user) => {
+                return `${user.following}`
+            })
+            .join(',')
+            .split(',')
+            .filter((item) => {
+                return item != ''
+            });
+        const finalUsers = await User.find({
+            _id: { $in: resolveToFollowingArray },
+        });
+        const finalOfFinalUsers = finalUsers.filter((final) => !final.followers.includes(currentUser._id));
+
+        res.json({ success: true, finalOfFinalUsers });
     } catch (e) {
         console.log(`api, ${e}`);
         res.status(500).json({ error: e });
     }
-  },
+},
 
 };
 

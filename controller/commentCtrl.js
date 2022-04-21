@@ -33,7 +33,6 @@ const commentCtrl = {
 
   createComment: async (req, res) => {
     const { content } = req.body;
-    // console.log(req);
     if (!content)
       return res
         .status(400)
@@ -49,6 +48,7 @@ const commentCtrl = {
         postUserId: userId.user,
         // tag:
         likes: [],
+        parent: req.params.commentId
         reply: [],
         parent: (req.params.commentId) ? null : 'x'
       });

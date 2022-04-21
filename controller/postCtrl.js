@@ -1,5 +1,6 @@
 const Post = require('../model/postModel');
 
+
 const postCtrl = {
   getPosts: async (req, res) => {
     try {
