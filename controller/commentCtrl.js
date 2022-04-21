@@ -5,7 +5,7 @@ const Post = require('../model/postModel');
 const commentCtrl = {
   getComments: async (req, res) => {
     try {
-      const cmts = await Comment.find({ postId: req.params.postId})
+      const cmts = await Comment.find({postId: req.params.postId, parent: 'x'})
       .populate({
         path: 'reply', 
         populate: [{
@@ -18,8 +18,9 @@ const commentCtrl = {
           ]}, 
           {path: 'user'}]
       })
-      .populate({path: 'user'});
-      // const cmts = await Comment.find({ postId: req.params.postId }).populate('children');
+      .populate({path: 'user'})
+      // .sort({'createdAt':-1})
+      ;
 
       res.json({ success: true, cmts });
     } catch (error) {
@@ -32,7 +33,7 @@ const commentCtrl = {
 
   createComment: async (req, res) => {
     const { content } = req.body;
-
+    // console.log(req);
     if (!content)
       return res
         .status(400)
@@ -48,8 +49,8 @@ const commentCtrl = {
         postUserId: userId.user,
         // tag:
         likes: [],
-        // reply: []
-        parent: req.params.commentId
+        reply: [],
+        parent: (req.params.commentId) ? null : 'x'
       });
 
       await newComment.save();
@@ -58,9 +59,9 @@ const commentCtrl = {
         const newCommentId = await Comment.findOne(
           {user: req.userId, postId: req.params.postId, postUserId: userId.user, reply: [], content}, 
           {_id:1, content: 0, reply: 0, likes: 0, postId: 0, postUserId: 0, user: 0, tag: 0, __v: 0}
-        );  
+        ); 
 
-        const updateReply = await Comment.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
+        const updateReply = await Comment.findOneAndUpdate({ _id: .mongooseTypes.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
       }
 
       res.json({ success: true, message: 'comment successfully!', newComment });
