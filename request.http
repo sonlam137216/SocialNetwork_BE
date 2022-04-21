@@ -12,14 +12,14 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "nhu@gmail.com",
+    "email": "son@gmail.com",
     "password": "123"
 }
 
 
 ###
 GET http://localhost:3001/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NDk5ODQ1NDIsImV4cCI6MTY0OTk4ODE0Mn0.A7hTh74x6Y5q6Y-NdeDb1uHmCgj_HkZI00rR1GI1gIM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAzODgzMDQsImV4cCI6MTY1MDQyNDMwNH0.Ikh6rrI25lCr1LEbBFRNfW08LuJVsyhsSHph9zuCcnc
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
@@ -32,20 +32,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 ###
 GET http://localhost:3001/api/comments/6252854a4c49cb901069a280
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAxNzE5ODUsImV4cCI6MTY1MDE3NTU4NX0.wgyZgJYHx0ofrcRP5Ua0pbQmgO7wkd4zkz_4TuArh6Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTAzODgzNTcsImV4cCI6MTY1MDQyNDM1N30.vH_g0jWLJ9BKE4t-KNrZC9o5s1kqhDABg0ZFf3Nq0Nk
 
 ###
-POST http://localhost:3001/api/comments/6252854a4c49cb901069a280/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTAxNzIzNTcsImV4cCI6MTY1MDE3NTk1N30.qSDgDw_MFoFxeG9sNm80R7xhuyhShUflCL_rJDxoWa4
+POST http://localhost:3001/api/comments/625bbc34fce09e34f4f79ea8/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTAzODgzNTcsImV4cCI6MTY1MDQyNDM1N30.vH_g0jWLJ9BKE4t-KNrZC9o5s1kqhDABg0ZFf3Nq0Nk
 
 {
-<<<<<<< HEAD
-    "content": " thai comment 1"
+    "content": " son comment 1"
 }
-=======
-    "content": " nhu comment 2-2-1"
-}
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTY0MjIsImV4cCI6MTY0OTg2MDAyMn0.gq-u76mrZvdA7wvVwRzEv_7aV6waQnvJ16fI5Qzql6w
 
 ###
 POST http://localhost:3001/api/posts
@@ -90,4 +85,3 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 GET http://localhost:3001/api/home/relate
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NjE1NTksImV4cCI6MTY0OTg5NzU1OX0.TVxFU4Ng3hC62hfbte8gQJHi8x-LwUSCv4UUYGiiYvM
 
->>>>>>> 626333d0b7ee39226159c5c503830a39d2fcb433

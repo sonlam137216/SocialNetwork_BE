@@ -18,8 +18,9 @@ const commentCtrl = {
           ]}, 
           {path: 'user'}]
       })
-      .populate({path: 'user'});
-      // const cmts = await Comment.find({ postId: req.params.postId }).populate('children');
+      .populate({path: 'user'})
+      // .sort({'createdAt':-1})
+      ;
 
       res.json({ success: true, cmts });
     } catch (error) {
@@ -60,7 +61,7 @@ const commentCtrl = {
           {_id:1, content: 0, reply: 0, likes: 0, postId: 0, postUserId: 0, user: 0, tag: 0, __v: 0}
         ); 
 
-        const updateReply = await Comment.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
+        const updateReply = await Comment.findOneAndUpdate({ _id: .mongooseTypes.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
       }
 
       res.json({ success: true, message: 'comment successfully!', newComment });

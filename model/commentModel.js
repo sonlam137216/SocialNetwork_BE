@@ -14,7 +14,16 @@ const commentSchema = new Schema({
     likes: [{type: mongoose.Types.ObjectId, ref: 'users'}],
     user: {type: mongoose.Types.ObjectId, ref: 'users'},
     postId: {type: mongoose.Types.ObjectId, ref: 'posts'},
-    postUserId: {type: mongoose.Types.ObjectId, ref: 'users'}
+    postUserId: {type: mongoose.Types.ObjectId, ref: 'users'},
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    modifiedAt: {
+        type: Date,
+        default: Date.now()
+    }
+
 },  {
     timestamps: true,
     toJSON: {
