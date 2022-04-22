@@ -36,7 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 
 ###
 GET http://localhost:3001/api/home/relate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NjQ4NjksImV4cCI6MTY0OTg2ODQ2OX0.9QVOyFY3BqeqHnDlo5soYMGowpZlQ1X1sfuAlYkTPeU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA0MjUyODMsImV4cCI6MTY1MDQ2MTI4M30.zuClERc_hJv10FnleSkIsryKLON28JgfcCcsBAGSplc
 
 ###
 POST http://localhost:3001/api/user/search

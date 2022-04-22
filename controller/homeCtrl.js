@@ -36,8 +36,6 @@ const homeCtrl = {
                 _id: { $in: currentUser.following },
             });
 
-            console.log(usersWhomCurrentUserFollow);
-
             const resolveToFollowingArray = usersWhomCurrentUserFollow
                 .map((user) => {
                     return `${user.following}`;
@@ -47,7 +45,6 @@ const homeCtrl = {
                 .filter((item) => {
                     return item != '';
                 });
-            console.log(resolveToFollowingArray);
             const finalUsers = await User.find({
                 _id: { $in: resolveToFollowingArray },
             });
@@ -55,7 +52,7 @@ const homeCtrl = {
 
             res.json({ success: true, finalOfFinalUsers });
         } catch (e) {
-            console.log(`api: ${e}`);
+            console.log(`api, ${e}`);
             res.status(500).json({ error: e });
         }
     },
