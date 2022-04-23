@@ -48,7 +48,7 @@ const commentCtrl = {
         postUserId: userId.user,
         // tag:
         likes: [],
-        parent: req.params.commentId
+        parent: req.params.commentId,
         reply: [],
         parent: (req.params.commentId) ? null : 'x'
       });
@@ -61,7 +61,7 @@ const commentCtrl = {
           {_id:1, content: 0, reply: 0, likes: 0, postId: 0, postUserId: 0, user: 0, tag: 0, __v: 0}
         ); 
 
-        const updateReply = await Comment.findOneAndUpdate({ _id: .mongooseTypes.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
+        const updateReply = await Comment.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
       }
 
       res.json({ success: true, message: 'comment successfully!', newComment });
