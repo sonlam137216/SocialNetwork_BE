@@ -50,7 +50,7 @@ const commentCtrl = {
                 parent: req.params.commentId ? null : 'x',
             });
 
-            await newComment.save();
+            newComment.save();
 
             if (req.params.commentId) {
                 const newCommentId = await Comment.findOne(

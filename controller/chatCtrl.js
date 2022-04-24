@@ -1,6 +1,7 @@
 const Post = require('../model/postModel');
 const User = require('../model/userModel');
 const Conversation = require('../model/conversationModel');
+const Mess = require('../model/messageModel')
 
 const chatCtrl = {
     createConversation: async (req, res) => {
@@ -83,6 +84,26 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
+
+    createMessage: async (req, res) => {
+        const {mess} = req.body
+
+        try {
+            const newMessage = ({
+                sender: req.userId,
+                conversationId: req.body.conversationId,
+                content: req.body.content,
+            });
+    
+            await newMessage.save()
+            res.json({ success: true, message: 'save message', newMessage });
+            //socket.emit('sendMessage', newMessage)
+
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }        
+    }
 };
 
 module.exports = chatCtrl;
