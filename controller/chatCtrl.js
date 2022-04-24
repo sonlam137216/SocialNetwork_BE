@@ -4,7 +4,15 @@ const Conversation = require('../model/conversationModel');
 
 const chatCtrl = {
     createConversation: async (req, res) => {
-        const { usersId } = req.body;
+        const { users } = req.body;
+
+        const usersId = users.map((user) => user._id);
+
+        const nameConversation = users
+            .map((user) => {
+                return `${user.name}`;
+            })
+            .join(', ');
 
         usersId.push(req.userId);
 
@@ -16,7 +24,7 @@ const chatCtrl = {
 
         try {
             const newConversation = new Conversation({
-                name: 'test',
+                name: nameConversation,
                 members: usersId,
             });
 
