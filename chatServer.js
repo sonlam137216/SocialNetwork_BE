@@ -57,10 +57,14 @@ io.on('connection', (socket) => {
         io.to(mess.conversationId).emit('recieveMessage', mess);
     });
 
-    socket.on('disconnect', (id) => {
-        // console.log(socket.id + ' disconnected.')
-        // users = users.filter((user) => user.userId !== socket.id);
+    socket.on('leaveRoom', (room) => {
+        socket.leave(room);
     });
+
+    // socket.on('disconnect', (id) => {
+    //     // console.log(socket.id + ' disconnected.')
+    //     // users = users.filter((user) => user.userId !== socket.id);
+    // });
 });
 
 app.use('/api/posts', postRouter);

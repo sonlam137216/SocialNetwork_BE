@@ -90,13 +90,27 @@ const chatCtrl = {
 
         try {
             const newMessage = new Mess({
-                sender: req.userId,
+                senderId: req.userId,
                 conversationId: req.body.conversationId,
                 content: req.body.content,
             });
 
             await newMessage.save();
             res.json({ success: true, message: 'save message', newMessage });
+            //socket.emit('sendMessage', newMessage)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
+
+    getMessageInConversation: async (req, res) => {
+        try {
+            const messages = await Mess.find({
+                conversationId: req.params.id,
+            });
+
+            res.json({ success: true, message: 'messages by conversation Id', messages });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);
