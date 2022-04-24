@@ -2,7 +2,8 @@ POST http://localhost:5001/api/auth/register
 Content-Type: application/json
 
 {
-    "email": "son@gmail.com",
+    "name": "Duc Luong",
+    "email": "luong@gmail.com",
     "password": "123",
     "confirmPassword": "123"
 }
@@ -12,7 +13,7 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "khang@gmail.com",
+    "email": "thai@gmail.com",
     "password": "123"
 }
 
@@ -57,12 +58,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 
 ###
 GET http://localhost:3001/api/home/relate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NjQ4NjksImV4cCI6MTY0OTg2ODQ2OX0.9QVOyFY3BqeqHnDlo5soYMGowpZlQ1X1sfuAlYkTPeU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA0MjUyODMsImV4cCI6MTY1MDQ2MTI4M30.zuClERc_hJv10FnleSkIsryKLON28JgfcCcsBAGSplc
 
 ###
 POST http://localhost:3001/api/user/search
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NDk4NTk0NDYsImV4cCI6MTY0OTg2MzA0Nn0.H6HkejMxiz9yDqjbYqJIOx9GfO11P0U_EpfeGlq2LTc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjY1MTUyMzIzMzgxYTYxMmJhOGUzMTQiLCJpYXQiOjE2NTA3OTE3MTUsImV4cCI6MTY1MDgyNzcxNX0.dgaVP79zyLYem4hXsAuo4IFEplRPxhgu-5EORQ6TjL0
 
 {
     "search": "@"
@@ -73,9 +74,9 @@ GET http://localhost:3001/api/user/user/625283db28644968034d08a3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA0NjY5NjgsImV4cCI6MTY1MDUwMjk2OH0.Q5y-lQkl5ma8xzAwGdq8KRVpr8ms6qrNy_8Ji0cZjz4
 
 ###
-PATCH http://localhost:3001/api/user/user/625283db28644968034d08a3/follow
+PATCH http://localhost:3001/api/user/user/6265152323381a612ba8e314/follow
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NDk4NjAzNzEsImV4cCI6MTY0OTg2Mzk3MX0.f2ETC1oOsIS9peTw2EOpEBeXBNoOm1l_UgRfBvjqZgs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTA3OTE4NDksImV4cCI6MTY1MDgyNzg0OX0.aS1fUvpAoHWzSgahVCux0rnxWurE2xSwnshvR3A7GeM
 
 
 ###
@@ -114,3 +115,6 @@ GET http://localhost:3001/api/chat/getContact
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTA3MDE2NjIsImV4cCI6MTY1MDczNzY2Mn0.QNv2-aOf_30f6ytCSMLUWzwCajIriqSBLLnHO0tQKA8
 
+###
+GET http://localhost:3001/api/user/contact
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA3MDk4MzUsImV4cCI6MTY1MDc0NTgzNX0.9qVdbiskytppOVfVsfWuZjEDeU1iW5-i5-hqrIKHBBk
