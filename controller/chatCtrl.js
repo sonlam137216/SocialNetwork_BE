@@ -1,7 +1,8 @@
 const Post = require('../model/postModel');
 const User = require('../model/userModel');
 const Conversation = require('../model/conversationModel');
-const Mess = require('../model/messageModel')
+const Mess = require('../model/messageModel');
+
 
 const chatCtrl = {
     createConversation: async (req, res) => {
@@ -34,7 +35,7 @@ const chatCtrl = {
         try {
             const conversation = await Conversation.find({
                 members: req.userId,
-            });
+            }).sort({ createdAt: -1 });
 
             if (!conversation) {
                 res.status(404).json({ error: 'not found' });
@@ -64,7 +65,7 @@ const chatCtrl = {
             //       .status(400)
             //       .json({ success: true, message: 'You have followed this user!' });
 
-            const addUser = await Conversation.findByIdAndUpdate(
+            const addUser = await Conversation.findOneAndUpdate(
                 { _id: req.params.conId },
                 { $push: { members: usersId } },
                 { new: true }
@@ -88,6 +89,14 @@ const chatCtrl = {
             });
     
             await newMessage.save()
+
+            const conversation = await Conversation.findOneAndUpdate(
+                { _id: newMessage.conversationId },
+                {
+                    lastMessageAt: newMessage.createAt
+                }
+            )
+
             res.json({ success: true, message: 'save message', newMessage });
             //socket.emit('sendMessage', newMessage)
 
@@ -101,7 +110,7 @@ const chatCtrl = {
         try {
             const messages = await Mess.find({
                 conversationId: req.body
-            });
+            }).populate({path: 'users'});
 
             res.json({ success: true, message: 'messages by conversation Id', messages });
             //socket.emit('sendMessage', newMessage)
