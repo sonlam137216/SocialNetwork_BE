@@ -3,10 +3,16 @@ const Schema = mongoose.Schema;
 
 const messagesSchema = new Schema({
     conversationId: { type: mongoose.Types.ObjectId, ref: 'convaersations' },
-    senderId: { type: mongoose.Types.ObjectId, ref: 'users' },
+    sender: { type: mongoose.Types.ObjectId, ref: 'users' },
     content: {
-        type: String,
-        required: true,
+        isImage: {
+            type: Boolean,
+            default: false,
+        },
+        text: {
+            type: String,
+            required: true,
+        },
     },
     createdAt: {
         type: Date,

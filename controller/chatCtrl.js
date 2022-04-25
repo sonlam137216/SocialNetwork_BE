@@ -42,7 +42,7 @@ const chatCtrl = {
         try {
             const conversation = await Conversation.find({
                 members: req.userId,
-            });
+            }).sort({ updatedAt: -1 });
 
             if (!conversation) {
                 res.status(404).json({ error: 'not found' });
@@ -72,7 +72,7 @@ const chatCtrl = {
             //       .status(400)
             //       .json({ success: true, message: 'You have followed this user!' });
 
-            const addUser = await Conversation.findByIdAndUpdate(
+            const addUser = await Conversation.findOneAndUpdate(
                 { _id: req.params.conId },
                 { $push: { members: usersId } },
                 { new: true }
@@ -90,13 +90,25 @@ const chatCtrl = {
 
         try {
             const newMessage = new Mess({
-                senderId: req.userId,
+                sender: req.userId,
                 conversationId: req.body.conversationId,
-                content: req.body.content,
+                content: {
+                    text: req.body.content,
+                    isImage: req.body.isImage,
+                },
             });
 
             await newMessage.save();
-            res.json({ success: true, message: 'save message', newMessage });
+            const newBruh = await newMessage.populate({ path: 'sender' });
+
+            const conversation = await Conversation.findOneAndUpdate(
+                { _id: newMessage.conversationId },
+                {
+                    updatedAt: Date.now(),
+                }
+            );
+
+            res.json({ success: true, message: 'save message', newMessage: newBruh });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);
@@ -108,8 +120,7 @@ const chatCtrl = {
         try {
             const messages = await Mess.find({
                 conversationId: req.params.id,
-            });
-
+            }).populate({ path: 'sender' });
             res.json({ success: true, message: 'messages by conversation Id', messages });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
