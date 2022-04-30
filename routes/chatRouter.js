@@ -10,8 +10,6 @@ router.post('/createMessage', verifyToken, chatCtrl.createMessage);
 router.get('/:id', verifyToken, chatCtrl.getMessageInConversation);
 router.post('/existCon', verifyToken, chatCtrl.getExistConversation);
 router.get('/:id/members', verifyToken, chatCtrl.getMembersConversation);
-router.get('/:id/remove', verifyToken, chatCtrl.removeConversation);
-
-
+router.delete('/remove', verifyToken, chatCtrl.removeConversation);
 
 module.exports = router;

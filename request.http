@@ -2,8 +2,8 @@ POST http://localhost:5001/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Duc Luong",
-    "email": "luong@gmail.com",
+    "name": "Hữu Khang",
+    "email": "huukhang@gmail.com",
     "password": "123",
     "confirmPassword": "123"
 }
@@ -13,7 +13,7 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "thai@gmail.com",
+    "email": "hoangkhang@gmail.com",
     "password": "123"
 }
 
@@ -74,9 +74,9 @@ GET http://localhost:3001/api/user/user/625283db28644968034d08a3
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA0NjY5NjgsImV4cCI6MTY1MDUwMjk2OH0.Q5y-lQkl5ma8xzAwGdq8KRVpr8ms6qrNy_8Ji0cZjz4
 
 ###
-PATCH http://localhost:3001/api/user/user/6265152323381a612ba8e314/follow
+PATCH http://localhost:3001/api/user/user/626d39fbae1a5c224b67ab95/follow
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTA3OTE4NDksImV4cCI6MTY1MDgyNzg0OX0.aS1fUvpAoHWzSgahVCux0rnxWurE2xSwnshvR3A7GeM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjZkMzlkMWFlMWE1YzIyNGI2N2FiOGYiLCJpYXQiOjE2NTEzMjU5MDYsImV4cCI6MTY1MTM2MTkwNn0.iwF-PVHdFXi3oJpYz3qfiKxLBT2ho_BCNpvr0VrtcnM
 
 
 ###

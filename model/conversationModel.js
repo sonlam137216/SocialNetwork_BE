@@ -11,11 +11,11 @@ const conversationSchema = new Schema({
     members: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
     updatedAt: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
     },
     createdAt: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
     },
 });
 

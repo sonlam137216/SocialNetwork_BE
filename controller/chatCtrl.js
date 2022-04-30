@@ -9,12 +9,6 @@ const chatCtrl = {
 
         const usersId = users.map((user) => user._id);
 
-        const nameConversation = users
-            .map((user) => {
-                return `${user.name}`;
-            })
-            .join(', ');
-
         usersId.push(req.userId);
 
         //simple validation
@@ -25,7 +19,6 @@ const chatCtrl = {
 
         try {
             const newConversation = new Conversation({
-                name: nameConversation,
                 members: usersId,
             });
 
@@ -108,7 +101,7 @@ const chatCtrl = {
                 }
             );
 
-            res.json({ success: true, message: 'save message', newMessage: newBruh });
+            res.status(201).json({ success: true, message: 'save message', newMessage: newBruh });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);
@@ -117,12 +110,11 @@ const chatCtrl = {
     },
 
     getMessageInConversation: async (req, res) => {
-    
         try {
             const messages = await Mess.find({
                 conversationId: req.params.id,
             }).populate({ path: 'sender' });
-            res.json({ success: true, message: 'messages by conversation Id', messages });
+            res.status(200).json({ success: true, message: 'messages by conversation Id', messages });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);
@@ -135,13 +127,11 @@ const chatCtrl = {
         const usersId = users.map((user) => user._id);
         try {
             const conversation = await Conversation.find({
-                $and: [
-                    {members: {$all: userId}},
-                    {members: {$size:usersId.length}}
-                ]       
-            });S
+                $and: [{ members: { $all: userId } }, { members: { $size: usersId.length } }],
+            });
+            S;
 
-            res.json({ success: true, message: 'existed conversation', conversation });
+            res.status(200).json({ success: true, message: 'existed conversation', conversation });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);
@@ -151,11 +141,10 @@ const chatCtrl = {
 
     getMembersConversation: async (req, res) => {
         try {
-            const conversation = await Conversation.find({
-                _id: req.params.id      
-            }).populate({path: 'members'});
-            conversation.map(con => con.members)
-            res.json({ success: true, message: 'existed conversation', conversation });
+            const conversation = await Conversation.findOne({
+                _id: req.params.id,
+            }).populate({ path: 'members' });
+            res.status(200).json({ success: true, message: 'existed conversation', members: conversation.members });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);
@@ -165,9 +154,12 @@ const chatCtrl = {
 
     removeConversation: async (req, res) => {
         try {
+            const { conversationId } = req.body;
             const conversation = await Conversation.find({
-                _id: req.params.id      
-            }).remove().exec();
+                _id: conversationId,
+            })
+                .remove()
+                .exec();
 
             res.json({ success: true, message: 'existed conversation', conversation });
             //socket.emit('sendMessage', newMessage)
@@ -176,7 +168,6 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
-
 };
 
 module.exports = chatCtrl;
