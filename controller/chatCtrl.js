@@ -9,23 +9,10 @@ const chatCtrl = {
 
         const usersId = users.map((user) => user._id);
 
-        const nameConversation = users
-            .map((user) => {
-                return `${user.name}`;
-            })
-            .join(', ');
-
         usersId.push(req.userId);
-
-        //simple validation
-        // if (!name)
-        //   return res
-        //     .status(400)
-        //     .json({ success: false, message: 'name is required' });
 
         try {
             const newConversation = new Conversation({
-                name: nameConversation,
                 members: usersId,
             });
 
@@ -165,8 +152,9 @@ const chatCtrl = {
 
     removeConversation: async (req, res) => {
         try {
+            const {conversationId} = req.body;
             const conversation = await Conversation.find({
-                _id: req.params.id      
+                _id: conversationId    
             }).remove().exec();
 
             res.json({ success: true, message: 'existed conversation', conversation });
