@@ -152,6 +152,10 @@ const chatCtrl = {
             const conversation = await Conversation.findOneAndDelete({
                 _id: conversationId,
             });
+            
+            const messages = await Mess.deleteMany({
+                conversationId: conversationId,
+            })
 
             res.json({ success: true, message: 'existed conversation', conversation });
             //socket.emit('sendMessage', newMessage)
