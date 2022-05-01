@@ -149,11 +149,9 @@ const chatCtrl = {
     removeConversation: async (req, res) => {
         try {
             const { conversationId } = req.body;
-            const conversation = await Conversation.find({
+            const conversation = await Conversation.findOneAndDelete({
                 _id: conversationId,
-            })
-                .remove()
-                .exec();
+            });
 
             res.json({ success: true, message: 'existed conversation', conversation });
             //socket.emit('sendMessage', newMessage)
