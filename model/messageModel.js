@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const messagesSchema = new Schema({
-    conversationId: { type: mongoose.Types.ObjectId, ref: 'convaersations' },
+    conversationId: { type: mongoose.Types.ObjectId, ref: 'conversations' },
     sender: { type: mongoose.Types.ObjectId, ref: 'users' },
     content: {
         isImage: {

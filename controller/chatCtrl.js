@@ -11,12 +11,6 @@ const chatCtrl = {
 
         usersId.push(req.userId);
 
-        //simple validation
-        // if (!name)
-        //   return res
-        //     .status(400)
-        //     .json({ success: false, message: 'name is required' });
-
         try {
             const newConversation = new Conversation({
                 members: usersId,
@@ -155,14 +149,31 @@ const chatCtrl = {
     removeConversation: async (req, res) => {
         try {
             const { conversationId } = req.body;
-            console.log(conversationId);
-            const conversation = await Conversation.find({
+            const conversation = await Conversation.findOneAndDelete({
                 _id: conversationId,
-            })
-                .remove()
-                .exec();
+            });
 
             res.json({ success: true, message: 'existed conversation', conversation });
+            //socket.emit('sendMessage', newMessage)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
+
+    tymMessage: async (req, res) => {
+        try {
+            const { userId } = req.body.userId;
+            const { messageId } = req.body.messageId;
+            const message = await Mess.findOneAndUpdate(
+                { _id: messageId },
+                {
+                    $push: { tym: usersId },
+                },
+                { new: true }
+            );
+
+            res.json({ success: true, message: 'existed conversation', message });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);
