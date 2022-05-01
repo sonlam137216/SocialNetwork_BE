@@ -155,6 +155,7 @@ const chatCtrl = {
     removeConversation: async (req, res) => {
         try {
             const { conversationId } = req.body;
+            console.log(conversationId);
             const conversation = await Conversation.find({
                 _id: conversationId,
             })
