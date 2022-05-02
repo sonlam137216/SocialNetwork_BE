@@ -17,8 +17,11 @@ const chatCtrl = {
             });
 
             await newConversation.save();
-
-            res.json({ success: true, message: 'new conversation has created', newConversation });
+            const conversation = await Conversation.findOne({
+                _id: newConversation._id,
+            }).populate({ path: 'members' });
+            console.log(conversation);
+            res.json({ success: true, message: 'new conversation has created', conversation });
         } catch (error) {
             console.log(error);
             res.status(500).json({ success: false, message: 'Interal server error' });
@@ -29,7 +32,9 @@ const chatCtrl = {
         try {
             const conversation = await Conversation.find({
                 members: req.userId,
-            }).sort({ updatedAt: -1 });
+            })
+                .sort({ updatedAt: -1 })
+                .populate({ path: 'members' });
 
             if (!conversation) {
                 res.status(404).json({ error: 'not found' });
@@ -152,10 +157,12 @@ const chatCtrl = {
             const conversation = await Conversation.findOneAndDelete({
                 _id: conversationId,
             });
-            
+
+            console.log(conversation);
+
             const messages = await Mess.deleteMany({
                 conversationId: conversationId,
-            })
+            });
 
             res.json({ success: true, message: 'existed conversation', conversation });
             //socket.emit('sendMessage', newMessage)
