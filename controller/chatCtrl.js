@@ -49,14 +49,14 @@ const chatCtrl = {
     },
 
     addMember: async (req, res) => {
-        const { usersId } = req.body;
+        const { usersId, conversationId } = req.body;
 
         //simple validation
         if (!usersId) return res.status(400).json({ success: false, message: '0 user' });
 
         try {
             const conversation = await Conversation.find({
-                _id: req.params.conId,
+                _id: conversationId,
             }).exec();
 
             const addUser = await Conversation.findOneAndUpdate(
@@ -65,8 +65,8 @@ const chatCtrl = {
                 { new: true }
             );
             const addedMembers = await User.findOne({
-                _id: usersId
-            })
+                _id: usersId,
+            });
             res.json({ success: true, message: 'add user successful', addedMembers });
         } catch (error) {
             console.log(error);
@@ -75,22 +75,21 @@ const chatCtrl = {
     },
 
     removeMember: async (req, res) => {
-        const { userId } = req.body;
+        const { userId, conversationId } = req.body;
 
         try {
-            const conversation = await Conversation.find({
-                _id: req.params.conId,
-            }).exec();
-
-            const removeUser = await Conversation.findOneAndUpdate(
-                { _id: req.params.conId },
+            const newConversation = await Conversation.findOneAndUpdate(
+                { _id: conversationId },
                 { $pull: { members: userId } },
+                {
+                    new: true,
+                }
             );
 
             const removedMember = await User.findOne({
-                _id: userId
-            })
-            res.json({ success: true, message: 'add user successful', removedMember });
+                _id: userId,
+            });
+            res.json({ success: true, message: 'add user successful', removedMember, newConversation });
         } catch (error) {
             console.log(error);
             res.status(500).json({ success: false, message: 'Internal server error' });
