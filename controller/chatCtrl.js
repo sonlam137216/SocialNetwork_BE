@@ -11,20 +11,17 @@ const chatCtrl = {
 
         usersId.push(req.userId);
 
-        //simple validation
-        // if (!name)
-        //   return res
-        //     .status(400)
-        //     .json({ success: false, message: 'name is required' });
-
         try {
             const newConversation = new Conversation({
                 members: usersId,
             });
 
             await newConversation.save();
-
-            res.json({ success: true, message: 'new conversation has created', newConversation });
+            const conversation = await Conversation.findOne({
+                _id: newConversation._id,
+            }).populate({ path: 'members' });
+            console.log(conversation);
+            res.json({ success: true, message: 'new conversation has created', conversation });
         } catch (error) {
             console.log(error);
             res.status(500).json({ success: false, message: 'Interal server error' });
@@ -35,7 +32,9 @@ const chatCtrl = {
         try {
             const conversation = await Conversation.find({
                 members: req.userId,
-            }).sort({ updatedAt: -1 });
+            })
+                .sort({ updatedAt: -1 })
+                .populate({ path: 'members' });
 
             if (!conversation) {
                 res.status(404).json({ error: 'not found' });
@@ -50,28 +49,47 @@ const chatCtrl = {
     },
 
     addMember: async (req, res) => {
-        const { usersId } = req.body;
+        const { usersId, conversationId } = req.body;
 
         //simple validation
         if (!usersId) return res.status(400).json({ success: false, message: '0 user' });
 
         try {
             const conversation = await Conversation.find({
-                _id: req.params.conId,
+                _id: conversationId,
             }).exec();
-
-            //   if (user.length!=0)
-            //     return res
-            //       .status(400)
-            //       .json({ success: true, message: 'You have followed this user!' });
 
             const addUser = await Conversation.findOneAndUpdate(
                 { _id: req.params.conId },
                 { $push: { members: usersId } },
                 { new: true }
             );
+            const addedMembers = await User.findOne({
+                _id: usersId,
+            });
+            res.json({ success: true, message: 'add user successful', addedMembers });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
 
-            res.json({ success: true, message: 'add user successful', usersId });
+    removeMember: async (req, res) => {
+        const { userId, conversationId } = req.body;
+
+        try {
+            const newConversation = await Conversation.findOneAndUpdate(
+                { _id: conversationId },
+                { $pull: { members: userId } },
+                {
+                    new: true,
+                }
+            );
+
+            const removedMember = await User.findOne({
+                _id: userId,
+            });
+            res.json({ success: true, message: 'add user successful', removedMember, newConversation });
         } catch (error) {
             console.log(error);
             res.status(500).json({ success: false, message: 'Internal server error' });
@@ -155,13 +173,37 @@ const chatCtrl = {
     removeConversation: async (req, res) => {
         try {
             const { conversationId } = req.body;
-            const conversation = await Conversation.find({
+            const conversation = await Conversation.findOneAndDelete({
                 _id: conversationId,
-            })
-                .remove()
-                .exec();
+            });
+
+            console.log(conversation);
+
+            const messages = await Mess.deleteMany({
+                conversationId: conversationId,
+            });
 
             res.json({ success: true, message: 'existed conversation', conversation });
+            //socket.emit('sendMessage', newMessage)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
+
+    tymMessage: async (req, res) => {
+        try {
+            const { userId } = req.body.userId;
+            const { messageId } = req.body.messageId;
+            const message = await Mess.findOneAndUpdate(
+                { _id: messageId },
+                {
+                    $push: { tym: usersId },
+                },
+                { new: true }
+            );
+
+            res.json({ success: true, message: 'existed conversation', message });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
             console.log(error);

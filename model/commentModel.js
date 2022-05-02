@@ -17,11 +17,11 @@ const commentSchema = new Schema({
     postUserId: {type: mongoose.Types.ObjectId, ref: 'users'},
     createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     },
     modifiedAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }
 },  {
     timestamps: true,

@@ -49,8 +49,18 @@ const io = new Server(chatServer, {
 io.on('connection', (socket) => {
     // console.log(socket.id + ' connected.')
 
+    socket.on('joinMessenger', (id) => {
+        socket.join(id);
+    });
+
     socket.on('joinRoom', (id) => {
         socket.join(id);
+    });
+
+    socket.on('sendNotice', (members) => {
+        members.forEach((member) => {
+            io.to(member._id).emit('recieveNotice', member);
+        });
     });
 
     socket.on('sendMessage', async (mess) => {
