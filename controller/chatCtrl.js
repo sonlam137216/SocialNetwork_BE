@@ -54,18 +54,38 @@ const chatCtrl = {
                 _id: req.params.conId,
             }).exec();
 
-            //   if (user.length!=0)
-            //     return res
-            //       .status(400)
-            //       .json({ success: true, message: 'You have followed this user!' });
-
             const addUser = await Conversation.findOneAndUpdate(
                 { _id: req.params.conId },
                 { $push: { members: usersId } },
                 { new: true }
             );
+            const addedMembers = await User.findOne({
+                _id: usersId
+            })
+            res.json({ success: true, message: 'add user successful', addedMembers });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
 
-            res.json({ success: true, message: 'add user successful', usersId });
+    removeMember: async (req, res) => {
+        const { userId } = req.body;
+
+        try {
+            const conversation = await Conversation.find({
+                _id: req.params.conId,
+            }).exec();
+
+            const removeUser = await Conversation.findOneAndUpdate(
+                { _id: req.params.conId },
+                { $pull: { members: userId } },
+            );
+
+            const removedMember = await User.findOne({
+                _id: userId
+            })
+            res.json({ success: true, message: 'add user successful', removedMember });
         } catch (error) {
             console.log(error);
             res.status(500).json({ success: false, message: 'Internal server error' });
