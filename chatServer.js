@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const uuid = require('uuid');
 const { Server } = require('socket.io');
 
 const postRouter = require('./routes/postRouter');
@@ -17,24 +18,9 @@ const User = require('./model/userModel');
 
 require('dotenv').config();
 
-// const connectDB = async () => {
-//     try {
-//         await mongoose.connect(
-//             `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@19522133.i4x3b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-//             {
-//                 useNewUrlParser: true,
-//                 useUnifiedTopology: true,
-//             }
-//         );
+const users = {};
 
-//         console.log('MongoDB connected');
-//     } catch (error) {
-//         console.log(error);
-//         process.exit(1);
-//     }
-// };
-
-// connectDB();
+const socketToRoom = {};
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -71,15 +57,39 @@ io.on('connection', (socket) => {
         socket.leave(room);
     });
 
-    socket.on('callUser', (data) => {
-        io.to(data.userToCall).emit('callUser', { signal: data.signalData, from: data.from, name: data.name });
+    // video call copy code :D
+
+    socket.on('join room', (roomID) => {
+        if (users[roomID]) {
+            const length = users[roomID].length;
+            if (length === 4) {
+                socket.emit('room full');
+                return;
+            }
+            users[roomID].push(socket.id);
+        } else {
+            users[roomID] = [socket.id];
+        }
+        socketToRoom[socket.id] = roomID;
+        const usersInThisRoom = users[roomID].filter((id) => id !== socket.id);
+
+        socket.emit('all users', usersInThisRoom);
     });
 
-    socket.on('answerCall', (data) => {
-        io.to(data.to).emit('callAccepted', data.signal);
+    socket.on('sending signal', (payload) => {
+        io.to(payload.userToSignal).emit('user joined', { signal: payload.signal, callerID: payload.callerID });
     });
 
-    socket.emit('me', socket.id);
+    socket.on('returning signal', (payload) => {
+        io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id });
+    });
+
+    socket.on('IamCalling', (props) => {
+        const videoId = uuid.v4();
+        props.members.forEach((member) => {
+            socket.broadcast.to(member._id).emit('recieveCalling', props.videoId);
+        });
+    });
 
     // socket.on('disconnect', (id) => {
     //     // console.log(socket.id + ' disconnected.')
