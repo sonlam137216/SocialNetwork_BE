@@ -8,6 +8,6 @@ router.post('/:postId/:commentId?', verifyToken, commentCtrl.createComment)
 router.put('/:commentId', verifyToken, commentCtrl.updateComment)
 router.delete('/:commentId', verifyToken, commentCtrl.deleteComment)
 
-// router.put('/:commentId', verifyToken, commentCtrl.ulComment) // like+unlike
+router.put('/ul/:commentId', verifyToken, commentCtrl.ulComment) // like+unlike
 
 module.exports = router
