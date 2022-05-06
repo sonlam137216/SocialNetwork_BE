@@ -33,67 +33,67 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-let users = []
-io.on('connection', socket => {
-    // console.log(socket.id + ' connected.')
+// let users = []
+// io.on('connection', socket => {
+//     // console.log(socket.id + ' connected.')
 
-    socket.on('joinRoom', id => {
-        const user = {userId: socket.id, room: id}
+//     socket.on('joinRoom', id => {
+//         const user = {userId: socket.id, room: id}
 
-        const check = users.every(user => user.userId !== socket.id)
+//         const check = users.every(user => user.userId !== socket.id)
 
-        if(check){
-            users.push(user)
-            socket.join(user.room)
-        }else{
-            users.map(user => {
-                if(user.userId === socket.id){
-                    if(user.room !== id){
-                        socket.leave(user.room)
-                        socket.join(id)
-                        user.room = id
-                    }
-                }
-            })
-        }
+//         if(check){
+//             users.push(user)
+//             socket.join(user.room)
+//         }else{
+//             users.map(user => {
+//                 if(user.userId === socket.id){
+//                     if(user.room !== id){
+//                         socket.leave(user.room)
+//                         socket.join(id)
+//                         user.room = id
+//                     }
+//                 }
+//             })
+//         }
 
-        // console.log(users)
-        // console.log(socket.adapter.rooms)
+//         // console.log(users)
+//         // console.log(socket.adapter.rooms)
 
-    })
+//     })
 
-    socket.on('createComment', async msg => {
-        const {content, user, postId, postUserId, createdAt, modifiedAt, send, parentCmt} = msg
+//     socket.on('createComment', async msg => {
+//         const {content, user, postId, postUserId, parentCmt} = msg
 
-        const newComment = new Comments({
-            content, reply: [], parent: 'x', likes: [], user, postId, postUserId, createdAt, modifiedAt
-        })
+//         const newComment = new Comments({
+//             content, reply: [], parent: 'x', likes: [], user, postId, postUserId
+//         })
 
-        if(send === 'replyComment'){
-            const {_id, content, reply, parent, likes, user, postId, postUserId, createdAt, modifiedAt} = newComment
+//         if(parentCmt !== null){
+//             const {_id, content, reply, parent, likes, user, postId, postUserId} = newComment
 
-            const comment = await Comments.findById(mongoose.Types.ObjectId(parentCmt))
+//             const comment = await Comments.findById(mongoose.Types.ObjectId(parentCmt))
 
-            if(comment){
-                comment.reply.push({reply: parentCmt})
+//             if(comment){
+//                 comment.reply.push({reply: parentCmt})
 
-                await newComment.save()
-                await comment.save()
-                io.to(comment.postId).emit('sendReplyCommentToClient', comment)
-            }
-        }else{
-            await newComment.save()
-            io.to(newComment.postId).emit('sendCommentToClient', newComment)
-        }
+//                 await newComment.save()
+//                 await comment.save()
+//                 io.to(comment.postId).emit('sendReplyCommentToClient', comment)
+//             }
+//         }else{
+//             await newComment.save()
+//             io.to(newComment.postId).emit('sendCommentToClient', newComment)
+//         }
 
         
-    })
+//     })
 
-    socket.on('disconnect', () => {
-        // console.log(socket.id + ' disconnected.')
-        users = users.filter(user => user.userId !== socket.id)
-    })
-})
+//     socket.on('disconnect', () => {
+//         // console.log(socket.id + ' disconnected.')
+//         users = users.filter(user => user.userId !== socket.id)
+//     })
+// })
 
 
 app.use('/api/posts', postRouter)

@@ -61,7 +61,7 @@ const commentCtrl = {
           {_id:1, content: 0, reply: 0, likes: 0, postId: 0, postUserId: 0, user: 0, tag: 0, __v: 0}
         ); 
 
-        const updateReply = await Comment.findOneAndUpdate({ _id: .mongooseTypes.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
+        const updateReply = await Comment.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
       }
 
       res.json({ success: true, message: 'comment successfully!', newComment });
@@ -113,26 +113,31 @@ const commentCtrl = {
     }
   },
 
-//   ulComment: async (req, res) => {
-//     try {
-//       const like_cmt = await Comment.find({ _id: mongoose.Types.ObjectId(req.params.id), "likes.user": mongoose.Types.ObjectId(req.userId) });
-//       if (like_cmt.length > 0)
-//         {
-//           const ul = await Comment.findOneAndRemove({_id: mongoose.Types.ObjectId(req.params.id)}); //?? delete and remove
-//         }
+  ulComment: async (req, res) => {
+    try {
+      const like_cmt = await Comment.find({ _id: mongoose.Types.ObjectId(req.params.commentId), "likes": mongoose.Types.ObjectId(req.userId) });
+      if (like_cmt.length > 0)
+        {
+          const ul = await Comment.findOneAndUpdate(
+            { _id: req.params.commentId },
+            { $pull: { "likes": mongoose.Types.ObjectId(req.userId) } },
+            { new: true }
+          );  
+        }
+      else {
+        const ul = await Comment.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.commentId) },
+          { $push: { "likes": mongoose.Types.ObjectId(req.userId) } },
+          { new: true }
+        );  
+      }
 
-//       const ul = await Comment.findOneAndUpdate(
-//         { _id: mongoose.Types.ObjectId(req.params.id) },
-//         { $push: { "likes.user": mongoose.Types.ObjectId(req.userId) } },
-//         { new: true }
-//       );
-
-//       res.json({ message: 'React comment successfully' });
-//     } catch (error) {
-//       console.log(error);
-//       res.status(500).json({ message: 'Internal server error!' });
-//     }
-//   },
+      res.json({ message: 'React comment successfully' });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Internal server error!' });
+    }
+  },
 };
 
 module.exports = commentCtrl;
