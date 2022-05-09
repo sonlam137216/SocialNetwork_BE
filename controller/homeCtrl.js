@@ -2,50 +2,60 @@ const Post = require('../model/postModel');
 const User = require('../model/userModel');
 
 const homeCtrl = {
-  getHomePosts: async (req, res) => {
-    try {
-        const user = await User.findOne({
-            _id: req.userId
-        })
-        const posts = await Post.find({
-            user: user.following
-        }).sort({createdAt: -1});
-        if(!posts) {
-            res.status(404).json({ error: "not found" })
-            return;
-        } 
-                
-        res.json({success: true, posts})
-    } catch (e) {
-        console.log(`api, ${e}`);
-        res.status(500).json({ error: e });
-    }
-  },
+    getHomePosts: async (req, res) => {
+        try {
+            const user = await User.findOne({
+                _id: req.userId,
+            });
+            const posts = await Post.find({
+                user: user.following,
+            })
+                .populate({ path: 'user' })
+                .sort({ createdAt: -1 });
+            if (!posts) {
+                res.status(404).json({ error: 'not found' });
+                return;
+            }
 
-  getRelateUser: async (req, res) => {
-    try {
-        const user = await User.findOne({
-            _id: req.userId
-        })
-        
-        
-        const following = user.following;
+            res.json({ success: true, posts });
+        } catch (e) {
+            console.log(`api, ${e}`);
+            res.status(500).json({ error: e });
+        }
+    },
 
-        const relateUsers = []
+    getRelateUser: async (req, res) => {
+        try {
+            //  Lấy user hiện tại
+            const currentUser = await User.findOne({
+                _id: req.userId,
+            });
+            // Lấy user mà user hiện tại đang follow
 
-        const relates = await following.map( async (item) => {
-          const relateUser = await User.find({ _id: item})
-          return relateUser;
-        });
-        console.log(relates)
-                
-        res.json({success: true, message: "get relate user success", relates})
-    } catch (e) {
-        console.log(`api, ${e}`);
-        res.status(500).json({ error: e });
-    }
-  },
+            const usersWhomCurrentUserFollow = await User.find({
+                _id: { $in: currentUser.following },
+            });
 
+            const resolveToFollowingArray = usersWhomCurrentUserFollow
+                .map((user) => {
+                    return `${user.following}`;
+                })
+                .join(',')
+                .split(',')
+                .filter((item) => {
+                    return item != '';
+                });
+            const finalUsers = await User.find({
+                _id: { $in: resolveToFollowingArray },
+            });
+            const finalOfFinalUsers = finalUsers.filter((final) => !final.followers.includes(currentUser._id));
+
+            res.json({ success: true, finalOfFinalUsers });
+        } catch (e) {
+            console.log(`api, ${e}`);
+            res.status(500).json({ error: e });
+        }
+    },
 };
 
 module.exports = homeCtrl;

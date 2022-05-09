@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     name: {
@@ -9,34 +9,34 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     avatar: {
         type: String,
-        default: ''
+        default: 'https://res.cloudinary.com/wjbucloud/image/upload/v1651308418/default_svymth.png',
     },
     role: {
         type: String,
-        default: 'male'
+        default: 'male',
     },
     mobile: {
         type: String,
-        default: ''
+        default: '',
     },
     address: {
         type: String,
-        default: ''
+        default: '',
     },
-    followers: [{type: mongoose.Types.ObjectId, ref: 'users'}],
-    following: [{type: mongoose.Types.ObjectId, ref: 'users'}],
+    followers: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
+    following: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
     createdAt: {
         type: Date,
-        default: Date.now
-    }
-})
+        default: Date.now,
+    },
+});
 
-module.exports = mongoose.model('users', userSchema)
+module.exports = mongoose.model('users', userSchema);
