@@ -1,5 +1,5 @@
-const { ObjectId } = require('mongodb');
-const User = require('../model/userModel');
+const { ObjectId } = require("mongodb");
+const User = require("../model/userModel");
 
 const userCtrl = {
   follow: async (req, res) => {
@@ -8,10 +8,10 @@ const userCtrl = {
         _id: req.userId,
         following: req.params.id,
       }).exec();
-      if (user.length!=0)
+      if (user.length != 0)
         return res
           .status(400)
-          .json({ success: true, message: 'You have followed this user!' });
+          .json({ success: true, message: "You have followed this user!" });
 
       const followingUser = await User.findByIdAndUpdate(
         { _id: req.userId },
@@ -25,12 +25,12 @@ const userCtrl = {
         { new: true }
       );
 
-      res.json({ success: true, message: 'update follow user', followingUser });
+      res.json({ success: true, message: "update follow user", followingUser });
     } catch (error) {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error' });
+        .json({ success: false, message: "Internal server error" });
     }
   },
   unfollow: async (req, res) => {
@@ -38,7 +38,7 @@ const userCtrl = {
       const unfollowUser = await User.findOneAndUpdate(
         { _id: req.userId },
         {
-          $pull: { following: req.params.id }
+          $pull: { following: req.params.id },
         }
       );
 
@@ -54,12 +54,12 @@ const userCtrl = {
       //     .status(400)
       //     .json({ success: false, message: 'Not found unfollow User' });
 
-      res.json({ success: true, message: 'unfollow User' });
+      res.json({ success: true, message: "unfollow User" });
     } catch (error) {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error' });
+        .json({ success: false, message: "Internal server error" });
     }
   },
 
@@ -70,17 +70,33 @@ const userCtrl = {
     if (!search)
       return res
         .status(400)
-        .json({ success: false, message: 'username is required' });
+        .json({ success: false, message: "username is required" });
 
     try {
       const users = await User.find({
-        email: { $regex: search } 
-    });
+        email: { $regex: search },
+      });
 
       res.json({ success: true, users });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Interal server error' });
+      res.status(500).json({ success: false, message: "Interal server error" });
+    }
+  },
+  getUsers: async (req, res) => {
+    let users = [];
+    try {
+      for (var i = 0; i < req.body.length; i++) {
+        var uid = req.body[i];
+        const user = await User.find({ _id: uid });
+        users.push(user);
+      }
+      res.json({ success: true, users });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
     }
   },
 };
