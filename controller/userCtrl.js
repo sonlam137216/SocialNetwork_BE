@@ -77,17 +77,40 @@ const userCtrl = {
         //simple validation
         if (!search) return res.status(400).json({ success: false, message: 'username is required' });
 
-        try {
-            const users = await User.find({
-                email: { $regex: search },
-            });
 
-            res.json({ success: true, users });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ success: false, message: 'Interal server error' });
-        }
-    },
+    //simple validation
+    if (!search)
+      return res
+        .status(400)
+        .json({ success: false, message: "username is required" });
+
+    try {
+      const users = await User.find({
+        email: { $regex: search },
+      });
+
+      res.json({ success: true, users });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: "Interal server error" });
+    }
+  },
+  getUsers: async (req, res) => {
+    let users = [];
+    try {
+      for (var i = 0; i < req.body.length; i++) {
+        var uid = req.body[i];
+        const user = await User.find({ _id: uid });
+        users.push(user);
+      }
+      res.json({ success: true, users });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
+    }
+  },
     getContactUser: async (req, res) => {
         try {
             const contactUsers = (
@@ -102,6 +125,7 @@ const userCtrl = {
             res.status(500).json({ success: false, message: 'Interal server error' });
         }
     },
+
 };
 
 module.exports = userCtrl;
