@@ -67,7 +67,6 @@ const userCtrl = {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error' });
     }
   },
   unfollow: async (req, res) => {
@@ -135,5 +134,3 @@ const userCtrl = {
     }
   },
 };
-
-module.exports = userCtrl;
