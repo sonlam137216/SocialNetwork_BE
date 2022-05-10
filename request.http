@@ -13,14 +13,14 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "thai@gmail.com",
+    "email": "son@gmail.com",
     "password": "123"
 }
 
 
 ###
 GET http://localhost:3001/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTAzODgzMDQsImV4cCI6MTY1MDQyNDMwNH0.Ikh6rrI25lCr1LEbBFRNfW08LuJVsyhsSHph9zuCcnc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTIxMTQ3OTQsImV4cCI6MTY1MjE1MDc5NH0.leDsA1Vy-af0j1La1VCILMINYWUcv5_9y4tvW_thkPQ
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
