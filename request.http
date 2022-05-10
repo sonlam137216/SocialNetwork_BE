@@ -13,7 +13,7 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "hoangkhang@gmail.com",
+    "email": "huukhang@gmail.com",
     "password": "123"
 }
 
@@ -58,7 +58,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 
 ###
 GET http://localhost:3001/api/home/relate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTA0MjUyODMsImV4cCI6MTY1MDQ2MTI4M30.zuClERc_hJv10FnleSkIsryKLON28JgfcCcsBAGSplc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjZkMzlmYmFlMWE1YzIyNGI2N2FiOTUiLCJpYXQiOjE2NTIxMTQwMjEsImV4cCI6MTY1MjE1MDAyMX0.bD_NhpmIfjdN3ji1muUEQu8ZnDQrytTbjKN5eq0gzmE
 
 ###
 POST http://localhost:3001/api/user/search
