@@ -1,11 +1,17 @@
 const Post = require('../model/postModel');
-
+const Comment = require('../model/commentModel');
 
 const postCtrl = {
   getPosts: async (req, res) => {
     try {
-      const posts = await Post.find({ user: req.userId }).populate('user');
-      res.json({ success: true, posts });
+      const listPost = await Post.find({ user: req.userId }).populate('user');
+
+      const posts = listPost.map(async (post, index) => {
+        const response = await Comment.find({ postId: post._id });
+        return { ...post, totalComment: response.length };
+      });
+
+      res.json({ success: true, message: 'get all post success', posts, listPost });
     } catch (error) {
       console.log(error);
       res
