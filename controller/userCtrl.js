@@ -102,6 +102,24 @@ const userCtrl = {
             res.status(500).json({ success: false, message: 'Interal server error' });
         }
     },
+
+    changeAvatar: async (req, res) => {
+        try {
+            const {newAvt} = req.body
+            const user = await User.findOneAndUpdate(
+                {_id : req.userId},
+                {avatar : newAvt},
+                {new: true}
+            )
+            console.log(user)
+
+            res.json({ success: true, user });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Interal server error' });
+        }
+
+    }
 };
 
 module.exports = userCtrl;

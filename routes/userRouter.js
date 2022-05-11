@@ -11,6 +11,8 @@ router.get('/contact', verifyToken, userCtrl.getContactUser);
 router.patch('/user/:id/follow', verifyToken, userCtrl.follow);
 router.patch('/user/:id/unfollow', verifyToken, userCtrl.unfollow);
 
+router.patch('/user/changeAvt', verifyToken, userCtrl.changeAvatar)
+
 // suggestion users
 router.get('/suggest', verifyToken);
 
