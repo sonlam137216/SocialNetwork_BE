@@ -3,7 +3,6 @@ const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const uuid = require('uuid');
 const { Server } = require('socket.io');
 
 const postRouter = require('./routes/postRouter');
@@ -53,11 +52,15 @@ io.on('connection', (socket) => {
         io.to(mess.conversationId).emit('recieveMessage', mess);
     });
 
+    socket.on('sendTym', (newMessage) => {
+        io.to(newMessage.conversationId).emit('recieveTym', newMessage);
+    });
+
     socket.on('leaveRoom', (room) => {
         socket.leave(room);
     });
 
-    // video call copy code :D
+    // video call
 
     socket.on('join room', (roomID) => {
         if (users[roomID]) {
@@ -85,16 +88,16 @@ io.on('connection', (socket) => {
     });
 
     socket.on('IamCalling', (props) => {
-        const videoId = uuid.v4();
         props.members.forEach((member) => {
             socket.broadcast.to(member._id).emit('recieveCalling', props.videoId);
         });
     });
 
-    // socket.on('disconnect', (id) => {
-    //     // console.log(socket.id + ' disconnected.')
-    //     // users = users.filter((user) => user.userId !== socket.id);
-    // });
+    socket.on('disconnect', (id) => {
+        // console.log(socket.id + ' disconnected.')
+        // users = users.filter((user) => user.userId !== socket.id);
+        socket.disconnect();
+    });
 });
 
 app.use('/api/posts', postRouter);
