@@ -27,7 +27,7 @@ const homeCtrl = {
     getRelateUser: async (req, res) => {
         try {
             let relateUserId = []
-            //  Lấy user hiện tại
+
             const currentUser = await User.findOne({
                 _id: req.userId,
             }).populate({path: 'following'});
@@ -40,10 +40,9 @@ const homeCtrl = {
                 $and: [
                     {_id: relateUserId},
                     {_id: {$ne: currentUser._id}},
-                    {followers: {$ne: currentUser._id}}
+                    {followers: {$nin: currentUser._id}}
                 ]
             })
-            
             res.json({ success: true, relateUser });
         } catch (e) {
             console.log(`api, ${e}`);
