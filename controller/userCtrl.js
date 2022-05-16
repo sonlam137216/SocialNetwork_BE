@@ -1,5 +1,6 @@
 const { ObjectId, CURSOR_FLAGS } = require('mongodb');
 const User = require('../model/userModel');
+const Post = require('../model/postModel')
 
 const userCtrl = {
     getUser: async (req, res) => {
@@ -102,6 +103,26 @@ const userCtrl = {
             res.status(500).json({ success: false, message: 'Interal server error' });
         }
     },
+    getAllUserPosts: async (req, res) => {
+        const userId = req.params.id
+        try {
+            const userPosts = await Post.find({
+                user: userId,
+            })
+                .populate({ path: 'user' })
+                .sort({ createdAt: -1 });
+            if (!userPosts) {
+                res.status(404).json({ error: 'not found' });
+                return;
+            }
+            console.log('hi....', userPosts)
+            res.json({ success: true, userPosts });
+        } catch (e) {
+            console.log(`api, ${e}`);
+            res.status(500).json({ error: e });
+        }
+    },
+
 };
 
 module.exports = userCtrl;

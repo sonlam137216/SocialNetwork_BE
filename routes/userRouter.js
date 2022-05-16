@@ -4,7 +4,7 @@ const userCtrl = require('../controller/userCtrl');
 const verifyToken = require('../middleware/auth');
 
 router.post('/search', verifyToken, userCtrl.searchUser);
-router.get('/user/:id', verifyToken, userCtrl.getUser);
+router.get('/:id', verifyToken, userCtrl.getAllUserPosts);
 router.get('/contact', verifyToken, userCtrl.getContactUser);
 
 // follow and unfollow
