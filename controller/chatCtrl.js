@@ -89,7 +89,7 @@ const chatCtrl = {
             const removedMember = await User.findOne({
                 _id: userId,
             });
-            res.json({ success: true, message: 'add user successful', removedMember, newConversation });
+            res.json({ success: true, message: 'remove user successful', removedMember, newConversation });
         } catch (error) {
             console.log(error);
             res.status(500).json({ success: false, message: 'Internal server error' });
@@ -193,18 +193,17 @@ const chatCtrl = {
 
     tymMessage: async (req, res) => {
         try {
-            const { userId } = req.body.userId;
-            const { messageId } = req.body.messageId;
-            const message = await Mess.findOneAndUpdate(
+            const userId = req.body.userId;
+            const messageId = req.body.messageId;
+            const newMessage = await Mess.findByIdAndUpdate(
                 { _id: messageId },
                 {
-                    $push: { tym: usersId },
+                    $push: { tym: userId },
                 },
-                { new: true }
-            );
+                { new: true, upsert: true }
+            ).populate({ path: 'sender' });
 
-            res.json({ success: true, message: 'existed conversation', message });
-            //socket.emit('sendMessage', newMessage)
+            res.json({ success: true, message: 'Tym successfully', newMessage });
         } catch (error) {
             console.log(error);
             res.status(500).json({ success: false, message: 'Internal server error' });

@@ -12,6 +12,6 @@ router.get('/:id', verifyToken, chatCtrl.getMessageInConversation);
 router.post('/existCon', verifyToken, chatCtrl.getExistConversation);
 router.get('/:id/members', verifyToken, chatCtrl.getMembersConversation);
 router.delete('/removeCon', verifyToken, chatCtrl.removeConversation);
-router.post('/tymMessage', verifyToken, chatCtrl.tymMessage);
+router.patch('/tymMessage', verifyToken, chatCtrl.tymMessage);
 
 module.exports = router;
