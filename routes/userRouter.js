@@ -4,7 +4,7 @@ const userCtrl = require('../controller/userCtrl');
 const verifyToken = require('../middleware/auth');
 
 router.post('/search', verifyToken, userCtrl.searchUser);
-router.get('/:id', verifyToken, userCtrl.getAllUserPosts);
+// router.get('/:id', verifyToken, userCtrl.getUser);
 router.get('/contact', verifyToken, userCtrl.getContactUser);
 
 // follow and unfollow
@@ -16,6 +16,17 @@ router.get('/suggest', verifyToken, )
 
 // get array of users
 router.get('/users', verifyToken, userCtrl.getUsers)
+
+//update user
+router.post('/update', verifyToken, userCtrl.updateUser),
+
+//get list followers
+// router.get('/list-followers', verifyToken, userCtrl.getListFollowers) 
+// get list followings
+router.get('/list-followings', verifyToken, userCtrl.getListFollowings)
+
+// get user info
+router.get('/:id', verifyToken, userCtrl.getUserInfo)
 
 module.exports = router
 
