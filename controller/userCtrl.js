@@ -2,87 +2,107 @@ const { ObjectId, CURSOR_FLAGS } = require('mongodb');
 const User = require('../model/userModel');
 
 const userCtrl = {
-    getUser: async (req, res) => {
-        const userId = req.params.id;
-        try {
-            const user = await User.findById(userId)
-                .select('-password')
-                .populate('followers following', '-password')
-                .populate('post');
-            if (!user) res.status(400).json({ success: false, message: 'Not found User' });
-            res.json({ success: true, message: 'Get user success', user });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ success: false, message: 'Interal server error' });
-        }
-    },
-    follow: async (req, res) => {
-        try {
-            const user = await User.find({
-                _id: req.userId,
-                following: req.params.id,
-            }).exec();
-            if (user.length != 0)
-                return res.status(400).json({ success: true, message: 'You have followed this user!' });
+  getUser: async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const user = await User.findOne({_id: userId})
+        //.populate('followers following', '-password')
+        console.log(user)
 
-            const followingUser = await User.findByIdAndUpdate(
-                { _id: req.userId },
-                { $push: { following: req.params.id } },
-                { new: true }
-            );
+      if (!user)
+        res.status(400).json({ success: false, message: 'Not found User' });
+      res.json({ success: true, message: 'Get user success', user });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'Interal server error' });
+    }
+  },
+  follow: async (req, res) => {
+    try {
+      const user = await User.find({
+        _id: req.userId,
+        following: req.params.id,
+      }).exec();
+      if (user.length != 0)
+        return res
+          .status(400)
+          .json({ success: true, message: 'You have followed this user!' });
 
-            const followerUser = await User.findByIdAndUpdate(
-                { _id: req.params.id },
-                { $push: { followers: req.userId } },
-                { new: true }
-            );
+      const followingUser = await User.findByIdAndUpdate(
+        { _id: req.userId },
+        { $push: { following: req.params.id } },
+        { new: true }
+      );
 
-            res.json({ success: true, message: 'update follow user', followingUser });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ success: false, message: 'Internal server error' });
-        }
-    },
-    unfollow: async (req, res) => {
-        try {
-            const unfollowUser = await User.findOneAndUpdate(
-                { _id: req.userId },
-                {
-                    $pull: { following: req.params.id },
-                }
-            );
+      const followerUser = await User.findByIdAndUpdate(
+        { _id: req.params.id },
+        { $push: { followers: req.userId } },
+        { new: true }
+      );
 
-            const unfollowerUser = await User.findOneAndUpdate(
-                { _id: req.params.id },
-                {
-                    $pull: { followers: req.userId },
-                }
-            );
+      res.json({ success: true, message: 'update follow user', followingUser });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
+  },
+  unfollow: async (req, res) => {
+    try {
+      const unfollowUser = await User.findOneAndUpdate(
+        { _id: req.userId },
+        {
+          $pull: { following: req.params.id },
+        },
+        { new: true }
+      ).populate("followers following");
 
-            // if (unfollowUser.length == 0)
-            //   res
-            //     .status(400)
-            //     .json({ success: false, message: 'Not found unfollow User' });
+      const unfollowerUser = await User.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $pull: { followers: req.userId },
+        },
+        { new: true }
+      );
 
-            res.json({ success: true, message: 'unfollow User' });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ success: false, message: 'Internal server error' });
-        }
-    },
+      if (!unfollowUser || !unfollowerUser) {
+        res.status(400).json('Does not update user');
+      }
 
-    searchUser: async (req, res) => {
-        const { search } = req.body;
+      // if (unfollowUser.length == 0)
+      //   res
+      //     .status(400)
+      //     .json({ success: false, message: 'Not found unfollow User' });
 
-        //simple validation
-        if (!search) return res.status(400).json({ success: false, message: 'username is required' });
+      res.json({
+        success: true,
+        message: 'unfollow User',
+        unfollowUser,
+        unfollowerUser,
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
+  },
 
+  searchUser: async (req, res) => {
+    const { search } = req.body;
 
     //simple validation
     if (!search)
       return res
         .status(400)
-        .json({ success: false, message: "username is required" });
+        .json({ success: false, message: 'username is required' });
+
+    //simple validation
+    if (!search)
+      return res
+        .status(400)
+        .json({ success: false, message: 'username is required' });
 
     try {
       const users = await User.find({
@@ -92,7 +112,7 @@ const userCtrl = {
       res.json({ success: true, users });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Interal server error" });
+      res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
   getUsers: async (req, res) => {
@@ -108,24 +128,77 @@ const userCtrl = {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: 'Internal server error' });
     }
   },
-    getContactUser: async (req, res) => {
-        try {
-            const contactUsers = (
-                await User.findOne({
-                    _id: req.userId,
-                }).populate({ path: 'following' })
-            ).following;
+  getContactUser: async (req, res) => {
+    try {
+      const contactUsers = (
+        await User.findOne({
+          _id: req.userId,
+        }).populate({ path: 'following' })
+      ).following;
 
-            res.json({ success: true, contactUsers });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ success: false, message: 'Interal server error' });
+      res.json({ success: true, contactUsers });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'Interal server error' });
+    }
+  },
+
+  updateUser: async (req, res) => {
+    try {
+      const { name, mobile, address, gender } = req.body;
+      if (!name)
+        return res.status(400).json({ msg: 'Please add your full name.' });
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.userId },
+        {
+          name,
+          mobile,
+          address,
+          gender,
+        },
+        {
+          new: true,
         }
-    },
+      );
 
+      res.json({
+        success: true,
+        message: 'Updated successfully',
+        user: updatedUser,
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error!' });
+    }
+  },
+
+  getUserInfo: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id).populate(
+        'followers following'
+      );
+      if (!user)
+        res.status(400).json({ success: false, message: 'Not found user!' });
+
+      res.json({
+        success: true,
+        message: 'get user info success',
+        userInfo: user,
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error!' });
+    }
+  },
+  getListFollowings: async (req, res) => {},
 };
 
 module.exports = userCtrl;

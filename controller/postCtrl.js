@@ -6,12 +6,49 @@ const postCtrl = {
     try {
       const listPost = await Post.find({ user: req.userId }).populate('user');
 
-      const posts = listPost.map(async (post, index) => {
+      // const posts = listPost.map(async (post, index) => {
+      //   console.log(post);
+      //   const response = await Comment.find({ postId: post._id });
+      //   console.log(response);
+      //   return { ...post, totalComment: response.length };
+      // });
+
+      res.json({
+        success: true,
+        message: 'get all post success',
+        listPost,
+        // posts,
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
+    }
+  },
+
+  getPostById: async (req, res) => {
+    const userId = req.params.id;
+    try {
+      const listPost = await Post.find({ user: userId }).populate('user');
+
+      const posts = [];
+
+      listPost.forEach(async (post, index) => {
         const response = await Comment.find({ postId: post._id });
-        return { ...post, totalComment: response.length };
+        await posts.push({ ...post._doc, total: response?.length });
       });
 
-      res.json({ success: true, message: 'get all post success', posts, listPost });
+      const comment = await Comment.find({
+        postId: '627950191d47d6ed235c0cc2',
+      });
+
+      res.json({
+        success: true,
+        message: 'get post by id success',
+        listPost,
+        posts,
+      });
     } catch (error) {
       console.log(error);
       res

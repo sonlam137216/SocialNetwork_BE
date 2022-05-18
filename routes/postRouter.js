@@ -4,6 +4,7 @@ const postCtrl = require('../controller/postCtrl')
 const verifyToken = require('../middleware/auth')
 
 router.get('/', verifyToken, postCtrl.getPosts)
+router.get('/:id', verifyToken, postCtrl.getPostById)
 router.post('/', verifyToken, postCtrl.createPost)
 
 //like and unlike
