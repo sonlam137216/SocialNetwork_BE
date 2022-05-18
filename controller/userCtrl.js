@@ -1,5 +1,6 @@
 const { ObjectId, CURSOR_FLAGS } = require('mongodb');
 const User = require('../model/userModel');
+const Post = require('../model/postModel')
 
 const userCtrl = {
   getUser: async (req, res) => {
