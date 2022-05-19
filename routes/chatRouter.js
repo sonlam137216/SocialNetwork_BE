@@ -14,5 +14,6 @@ router.get('/:id/members', verifyToken, chatCtrl.getMembersConversation);
 router.delete('/removeCon', verifyToken, chatCtrl.removeConversation);
 router.patch('/tymMessage', verifyToken, chatCtrl.tymMessage);
 router.patch('/changeName/:id', verifyToken, chatCtrl.changeConversationName);
+router.patch('/unTymMessage', verifyToken, chatCtrl.unTymMessage);
 
 module.exports = router;
