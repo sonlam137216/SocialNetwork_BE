@@ -77,7 +77,7 @@ const userCtrl = {
 
         try {
             // check user existing
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email }).populate('following followers');
             if (!user) return res.status(400).json({ success: false, message: 'Incorrect email' });
 
             const passwordValid = await bcrypt.compare(password, user.password);

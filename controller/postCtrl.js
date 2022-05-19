@@ -44,13 +44,14 @@ const postCtrl = {
     }
   },
   likePost: async (req, res) => {
+    const {postId} = req.body
     try {
-      const post = await Post.find({ _id: req.params.id, like: req.userId });
+      const post = await Post.find( {$and: [{ _id: postId }, { like: req.userId }]});
       if (post.length > 0)
         return res.status(400).json({ message: 'You liked this post!' });
 
-      const like = await Post.findOneAndUpdate(
-        { _id: req.params.id },
+      const likedPost = await Post.findOneAndUpdate(
+        { _id: postId },
         { $push: { likes: req.userId } },
         { new: true }
       );
@@ -58,12 +59,13 @@ const postCtrl = {
       if (!like)
         return res.status(400).json({ message: 'This post does not exist!' });
 
-      res.json({ message: 'Liked post' });
+      res.json({ message: 'Liked post', likedPost });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: 'Internal server error!' });
     }
   },
+
   unLikePost: async (req, res) => {
     try {
       const post = await Post.findOneAndUpdate(

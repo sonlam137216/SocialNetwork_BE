@@ -147,7 +147,6 @@ const chatCtrl = {
             const conversation = await Conversation.find({
                 $and: [{ members: { $all: userId } }, { members: { $size: usersId.length } }],
             });
-            S;
 
             res.status(200).json({ success: true, message: 'existed conversation', conversation });
             //socket.emit('sendMessage', newMessage)
