@@ -209,6 +209,24 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
+    unTymMessage: async (req, res) => {
+        try {
+            const userId = req.body.userId;
+            const messageId = req.body.messageId;
+            const newMessage = await Mess.findByIdAndUpdate(
+                { _id: messageId },
+                {
+                    $pull: { tym: userId },
+                },
+                { new: true, upsert: true }
+            ).populate({ path: 'sender' });
+
+            res.json({ success: true, message: 'Tym successfully', newMessage });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
 };
 
 module.exports = chatCtrl;

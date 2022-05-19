@@ -108,6 +108,6 @@ app.use('/api/chat', chatRouter);
 
 // app.use('/api/post', authRouter)
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3003;
 
 chatServer.listen(PORT, () => console.log(`Server started on port ${PORT}`));
