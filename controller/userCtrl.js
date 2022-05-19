@@ -4,26 +4,30 @@ const Post = require("../model/postModel");
 
 const userCtrl = {
   getUser: async (req, res) => {
-    const userId = req.params.id;
     try {
-      const user = await User.findById(userId)
-        .select("-password")
-        .populate("followers following", "-password")
-        .populate("post");
-      if (!user) res.status(400).json({ success: false, message: "Not found User" });
-      res.json({ success: true, message: "Get user success", user });
+      const userId = req.params.id;
+      const user = await User.findOne({_id: userId})
+        //.populate('followers following', '-password')
+        console.log(user)
+
+      if (!user)
+        res.status(400).json({ success: false, message: 'Not found User' });
+      res.json({ success: true, message: 'Get user success', user });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Interal server error" });
+      res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
   follow: async (req, res) => {
     try {
       const user = await User.find({
         _id: req.userId,
-        following: req.params.id
+        following: req.params.id,
       }).exec();
-      if (user.length != 0) return res.status(400).json({ success: true, message: "You have followed this user!" });
+      if (user.length != 0)
+        return res
+          .status(400)
+          .json({ success: true, message: 'You have followed this user!' });
 
       const followingUser = await User.findByIdAndUpdate(
         { _id: req.userId },
@@ -37,10 +41,12 @@ const userCtrl = {
         { new: true }
       );
 
-      res.json({ success: true, message: "update follow user", followingUser });
+      res.json({ success: true, message: 'update follow user', followingUser });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Internal server error" });
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
     }
   },
   unfollow: async (req, res) => {
@@ -48,26 +54,39 @@ const userCtrl = {
       const unfollowUser = await User.findOneAndUpdate(
         { _id: req.userId },
         {
-          $pull: { following: req.params.id }
-        }
-      );
+          $pull: { following: req.params.id },
+        },
+        { new: true }
+      ).populate("followers following");
 
       const unfollowerUser = await User.findOneAndUpdate(
         { _id: req.params.id },
         {
-          $pull: { followers: req.userId }
-        }
+          $pull: { followers: req.userId },
+        },
+        { new: true }
       );
+
+      if (!unfollowUser || !unfollowerUser) {
+        res.status(400).json('Does not update user');
+      }
 
       // if (unfollowUser.length == 0)
       //   res
       //     .status(400)
       //     .json({ success: false, message: 'Not found unfollow User' });
 
-      res.json({ success: true, message: "unfollow User" });
+      res.json({
+        success: true,
+        message: 'unfollow User',
+        unfollowUser,
+        unfollowerUser,
+      });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Internal server error" });
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
     }
   },
 
@@ -75,10 +94,16 @@ const userCtrl = {
     const { search } = req.body;
 
     //simple validation
-    if (!search) return res.status(400).json({ success: false, message: "username is required" });
+    if (!search)
+      return res
+        .status(400)
+        .json({ success: false, message: 'username is required' });
 
     //simple validation
-    if (!search) return res.status(400).json({ success: false, message: "username is required" });
+    if (!search)
+      return res
+        .status(400)
+        .json({ success: false, message: 'username is required' });
 
     try {
       const users = await User.find({
@@ -88,7 +113,7 @@ const userCtrl = {
       res.json({ success: true, users });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Interal server error" });
+      res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
   getUsers: async (req, res) => {
@@ -102,43 +127,79 @@ const userCtrl = {
       res.json({ success: true, users });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Internal server error" });
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
     }
   },
   getContactUser: async (req, res) => {
     try {
       const contactUsers = (
         await User.findOne({
-          _id: req.userId
-        }).populate({ path: "following" })
+          _id: req.userId,
+        }).populate({ path: 'following' })
       ).following;
 
       res.json({ success: true, contactUsers });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Interal server error" });
+      res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
-  getAllUserPosts: async (req, res) => {
-    const userId = req.params.id;
+
+  updateUser: async (req, res) => {
     try {
-    console.log("hi....", userId);  
-      const userPosts = await Post.find({
-        user: userId
-      })
-        .populate({ path: "user" })
-        .sort({ createdAt: -1 });
-      if (!userPosts) {
-        res.status(404).json({ error: "not found" });
-        return;
-      }
-      
-      res.json({ success: true, userPosts });
-    } catch (e) {
-      console.log(`api, ${e}`);
-      res.status(500).json({ error: e });
+      const { name, mobile, address, gender } = req.body;
+      if (!name)
+        return res.status(400).json({ msg: 'Please add your full name.' });
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.userId },
+        {
+          name,
+          mobile,
+          address,
+          gender,
+        },
+        {
+          new: true,
+        }
+      );
+
+      res.json({
+        success: true,
+        message: 'Updated successfully',
+        user: updatedUser,
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error!' });
     }
-  }
+  },
+
+  getUserInfo: async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id).populate(
+        'followers following'
+      );
+      if (!user)
+        res.status(400).json({ success: false, message: 'Not found user!' });
+
+      res.json({
+        success: true,
+        message: 'get user info success',
+        userInfo: user,
+      });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error!' });
+    }
+  },
+  getListFollowings: async (req, res) => {},
 };
 
 module.exports = userCtrl;

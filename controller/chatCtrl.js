@@ -208,6 +208,23 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
+
+    changeConversationName: async (req, res) => {
+        const newName = req.body.newName
+        console.log(newName)
+        try {
+            const newConversation = await Conversation.findOneAndUpdate(
+                {_id: req.params.id},
+                { $set: { name: newName } },
+                {new: true}
+            ).populate({ path: 'members' });
+
+            res.json({ success: true, message: 'Change name successfully', newConversation });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
 };
 
 module.exports = chatCtrl;

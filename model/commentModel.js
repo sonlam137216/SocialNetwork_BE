@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const users = require('../model/userModel')
-const posts = require('../model/postModel')
+const posts = require('../model/postModel') 
 
 const commentSchema = new Schema({
     content: {
