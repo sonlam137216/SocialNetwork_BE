@@ -29,5 +29,7 @@ router.get('/list-followings', verifyToken, userCtrl.getListFollowings)
 // get user info
 router.get('/:id', verifyToken, userCtrl.getUserInfo)
 
+router.get('/getAllUsers', verifyToken, userCtrl.getAllUsers)
+
 module.exports = router
 
