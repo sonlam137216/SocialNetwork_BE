@@ -242,7 +242,24 @@ const chatCtrl = {
       console.log(error);
       res.status(500).json({ success: false, message: "Internal server error" });
     }
-  }
+  },
+
+  changeConversationAvatar: async (req, res) => {
+    const newAvt = req.body.newAvt;
+    console.log(newAvt);
+    try {
+      const newConversation = await Conversation.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: { avatar: newAvt } },
+        { new: true }
+      ).populate({ path: "members" });
+
+      res.json({ success: true, message: "Change avatar successfully", newConversation });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: "Internal server error" });
+    }
+  },
 };
 
 module.exports = chatCtrl;

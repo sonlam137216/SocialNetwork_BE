@@ -58,28 +58,24 @@ const postCtrl = {
   },
 
   createPost: async (req, res) => {
-    const { content } = req.body;
-
-    //simple validation
-    if (!content)
-      return res
-        .status(400)
-        .json({ success: false, message: 'content is required' });
+    const { content, images } = req.body;
 
     try {
       const newPost = new Post({
-        content,
+        content: content,
+        images: images,
         user: req.userId,
       });
 
       await newPost.save();
 
-      res.json({ success: true, message: 'happy learning!', newPost });
+      res.json({ success: true, message: 'create post successfully', newPost });
     } catch (error) {
       console.log(error);
       res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
+
   likePost: async (req, res) => {
     const {postId} = req.body
     try {

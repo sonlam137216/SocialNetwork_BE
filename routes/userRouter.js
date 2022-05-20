@@ -31,5 +31,7 @@ router.get('/:id', verifyToken, userCtrl.getUserInfo)
 
 router.get('/getAllUsers', verifyToken, userCtrl.getAllUsers)
 
+router.get('/chat/contact', verifyToken, userCtrl.getContactUser)
+
 module.exports = router
 
