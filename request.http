@@ -150,3 +150,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 {
     "newName": "Hoi nhung nguoi chan doi"
 }
+
+###
+GET http://localhost:3001/api/user/users/getAllUsers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTI5NDY0MTQsImV4cCI6MTY1Mjk4MjQxNH0.Kmb04nsp_K4WDk2azlFVO2kJIw8sUx__k-YV-A_llpY

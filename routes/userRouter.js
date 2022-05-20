@@ -16,20 +16,18 @@ router.patch('/user/:id/unfollow', verifyToken, userCtrl.unfollow);
 router.get('/suggest', verifyToken);
 
 // get array of users
-router.get('/users', verifyToken, userCtrl.getUsers)
+router.get('/users', verifyToken, userCtrl.getUsers);
 
 //update user
 router.post('/update', verifyToken, userCtrl.updateUser),
-
-//get list followers
-// router.get('/list-followers', verifyToken, userCtrl.getListFollowers) 
-// get list followings
-router.get('/list-followings', verifyToken, userCtrl.getListFollowings)
+    //get list followers
+    // router.get('/list-followers', verifyToken, userCtrl.getListFollowers)
+    // get list followings
+    router.get('/list-followings', verifyToken, userCtrl.getListFollowings);
 
 // get user info
-router.get('/:id', verifyToken, userCtrl.getUserInfo)
+router.get('/:id', verifyToken, userCtrl.getUserInfo);
 
-router.get('/getAllUsers', verifyToken, userCtrl.getAllUsers)
+router.get('/users/getAllUsers', verifyToken, userCtrl.getAllUsers);
 
-module.exports = router
-
+module.exports = router;
