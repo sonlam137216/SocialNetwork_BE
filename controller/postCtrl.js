@@ -27,7 +27,7 @@ const postCtrl = {
     }
   },
 
-  getPostById: async (req, res) => {
+  getPostByUserId: async (req, res) => {
     const userId = req.params.id;
     try {
       const listPost = await Post.find({ user: userId }).populate('user');
@@ -57,37 +57,45 @@ const postCtrl = {
     }
   },
 
-  createPost: async (req, res) => {
-    const { content } = req.body;
+  getPostById: async (req, res) => {
+      const {postId} = req.body
+      try {
+        const post = await Post.find( {_id: postId} ).populate('user');
+        res.json({ message: 'get post successfully', post });
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal server error!' });
+      }
+    },
 
-    //simple validation
-    if (!content)
-      return res
-        .status(400)
-        .json({ success: false, message: 'content is required' });
+  createPost: async (req, res) => {
+    const { content, images } = req.body;
 
     try {
       const newPost = new Post({
-        content,
+        content: content,
+        images: images,
         user: req.userId,
       });
 
       await newPost.save();
 
-      res.json({ success: true, message: 'happy learning!', newPost });
+      res.json({ success: true, message: 'create post successfully', newPost });
     } catch (error) {
       console.log(error);
       res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
+
   likePost: async (req, res) => {
+    const {postId} = req.body
     try {
-      const post = await Post.find({ _id: req.params.id, like: req.userId });
+      const post = await Post.find( {$and: [{ _id: postId }, { like: req.userId }]});
       if (post.length > 0)
         return res.status(400).json({ message: 'You liked this post!' });
 
-      const like = await Post.findOneAndUpdate(
-        { _id: req.params.id },
+      const likedPost = await Post.findOneAndUpdate(
+        { _id: postId },
         { $push: { likes: req.userId } },
         { new: true }
       );
@@ -95,12 +103,13 @@ const postCtrl = {
       if (!like)
         return res.status(400).json({ message: 'This post does not exist!' });
 
-      res.json({ message: 'Liked post' });
+      res.json({ message: 'Liked post', likedPost });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: 'Internal server error!' });
     }
   },
+
   unLikePost: async (req, res) => {
     try {
       const post = await Post.findOneAndUpdate(

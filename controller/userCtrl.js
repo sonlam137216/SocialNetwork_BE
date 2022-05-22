@@ -1,6 +1,6 @@
 const { ObjectId, CURSOR_FLAGS } = require('mongodb');
 const User = require('../model/userModel');
-const Post = require('../model/postModel')
+const Post = require('../model/postModel');
 
 const userCtrl = {
   getUser: async (req, res) => {
@@ -107,7 +107,7 @@ const userCtrl = {
 
     try {
       const users = await User.find({
-        email: { $regex: search },
+        email: { $regex: search }
       });
 
       res.json({ success: true, users });
@@ -200,6 +200,24 @@ const userCtrl = {
     }
   },
   getListFollowings: async (req, res) => {},
+
+  getAllUsers: async(req, res) => {
+    try{
+      const users = await User.find()
+      const usersngon = users.map(user => {
+        const {
+          pasword, ...others
+        } =user;
+        return others;
+      })
+      res.status(200).json({ success: true, message: 'OK!!', listUser: usersngon});
+    } catch (error) {
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error!' });
+    }
+  }
 };
+
 
 module.exports = userCtrl;

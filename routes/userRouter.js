@@ -5,6 +5,7 @@ const verifyToken = require('../middleware/auth');
 
 router.post('/search', verifyToken, userCtrl.searchUser);
 // router.get('/:id', verifyToken, userCtrl.getUser);
+// router.get('/:id', verifyToken, userCtrl.getAllUserPosts);
 router.get('/contact', verifyToken, userCtrl.getContactUser);
 
 // follow and unfollow
@@ -12,7 +13,7 @@ router.patch('/user/:id/follow', verifyToken, userCtrl.follow);
 router.patch('/user/:id/unfollow', verifyToken, userCtrl.unfollow);
 
 // suggestion users
-router.get('/suggest', verifyToken, )
+router.get('/suggest', verifyToken);
 
 // get array of users
 router.get('/users', verifyToken, userCtrl.getUsers)
@@ -28,7 +29,9 @@ router.get('/list-followings', verifyToken, userCtrl.getListFollowings)
 // get user info
 router.get('/:id', verifyToken, userCtrl.getUserInfo)
 
+router.get('/getAllUsers', verifyToken, userCtrl.getAllUsers)
+
+router.get('/chat/contact', verifyToken, userCtrl.getContactUser)
+
 module.exports = router
 
-
-module.exports = router;

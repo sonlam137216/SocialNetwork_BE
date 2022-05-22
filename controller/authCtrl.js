@@ -36,26 +36,29 @@ const updateRefreshToken = async (user, refreshToken) => {
 
 const userCtrl = {
     register: async (req, res) => {
-        const { email, password, confirmPassword } = req.body;
-
+        const {values: {email, name, phone, gender, BirthDay, pass, confirmpass}}  = req.body;
         //simple validation
-        if (!email || !password) return res.status(400).json({ success: false, message: 'Missing email or password' });
+        if (!email || !pass) return res.status(400).json({ success: false, message: 'Missing email or password' });
 
         try {
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email: email });
             if (user) return res.status(400).json({ success: false, message: 'email already taken' });
 
-            if (password !== confirmPassword)
+            if (pass !== confirmpass)
                 return res.status(400).json({ success: false, message: 'Password does not match' });
 
             // all good
-            const hashedPassword = await bcrypt.hash(password, 12);
+            const hashedPassword = await bcrypt.hash(pass, 12);
 
             const newUser = new User({
-                email,
+                email: email,
+                name: name,
+                mobile: phone,
+                gender: gender,
+                dateofbirth: BirthDay,
                 password: hashedPassword,
             });
-            //jwt
+            jwt
             const tokens = generateTokens(newUser);
 
             await newUser.save();
@@ -63,7 +66,7 @@ const userCtrl = {
             res.json({
                 success: true,
                 message: 'user created successfully!',
-                tokens,
+                // tokens,
             });
         } catch (error) {
             console.log(error);
@@ -77,7 +80,7 @@ const userCtrl = {
 
         try {
             // check user existing
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email }).populate('following followers');
             if (!user) return res.status(400).json({ success: false, message: 'Incorrect email' });
 
             const passwordValid = await bcrypt.compare(password, user.password);
