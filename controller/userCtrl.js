@@ -149,7 +149,7 @@ const userCtrl = {
 
   updateUser: async (req, res) => {
     try {
-      const { name, mobile, address, gender } = req.body;
+      const { name, mobile, gender, avatar } = req.body;
       if (!name)
         return res.status(400).json({ msg: 'Please add your full name.' });
 
@@ -158,8 +158,8 @@ const userCtrl = {
         {
           name,
           mobile,
-          address,
           gender,
+          avatar
         },
         {
           new: true,
