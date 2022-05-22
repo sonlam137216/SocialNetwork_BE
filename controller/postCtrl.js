@@ -27,7 +27,7 @@ const postCtrl = {
     }
   },
 
-  getPostById: async (req, res) => {
+  getPostByUserId: async (req, res) => {
     const userId = req.params.id;
     try {
       const listPost = await Post.find({ user: userId }).populate('user');
@@ -56,6 +56,17 @@ const postCtrl = {
         .json({ success: false, message: 'Internal server error' });
     }
   },
+
+  getPostById: async (req, res) => {
+      const {postId} = req.body
+      try {
+        const post = await Post.find( {_id: postId} ).populate('user');
+        res.json({ message: 'get post successfully', post });
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal server error!' });
+      }
+    },
 
   createPost: async (req, res) => {
     const { content, images } = req.body;

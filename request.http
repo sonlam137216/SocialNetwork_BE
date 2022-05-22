@@ -2,11 +2,12 @@ POST http://localhost:5001/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Hữu Khang",
-    "email": "huukhang@gmail.com",
-    "password": "123",
-    "confirmPassword": "123"
+  "values" : {
+      "email": "khangnguyen@gmail.com",
+  "password": "123"
+  }
 }
+
 
 ###
 POST http://localhost:5001/api/auth/login
@@ -52,10 +53,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTAxNzkzNTEsImV4cCI6MTY1MDE4Mjk1MX0.2IJMjAEmQZNcWNtOCJh6tXDMB4JwSkRnuNB2SKJO1eI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMwNjkzMjUsImV4cCI6MTY1MzEwNTMyNX0.ydpu5h92i66fuSlXG5DRTmaPgFcOy4kCwUeJsFBhlZ0
 
 {
-    "content": "Khang post 3"
+    "content": "Khang post 3",
+    "images": [
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/qamxhsmcyxl6qaz7dnkk.jpg",
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/rfylddtrk0qduuk1ekb1.jpg",
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/nsp7y91sphyutjndacg4.jpg"
+    ]
 }
 
 ###
