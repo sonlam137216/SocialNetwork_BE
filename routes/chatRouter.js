@@ -13,5 +13,8 @@ router.post('/existCon', verifyToken, chatCtrl.getExistConversation);
 router.get('/:id/members', verifyToken, chatCtrl.getMembersConversation);
 router.delete('/removeCon', verifyToken, chatCtrl.removeConversation);
 router.patch('/tymMessage', verifyToken, chatCtrl.tymMessage);
+router.patch('/changeName/:id', verifyToken, chatCtrl.changeConversationName);
+router.patch('/unTymMessage', verifyToken, chatCtrl.unTymMessage);
+router.patch('/changeAvatar/:id', verifyToken, chatCtrl.changeConversationAvatar);
 
 module.exports = router;

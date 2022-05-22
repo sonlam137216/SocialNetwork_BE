@@ -9,6 +9,10 @@ const conversationSchema = new Schema({
         default: '',
     },
     members: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
+    avatar: {
+        type: String,
+        default: '',
+    },
     updatedAt: {
         type: Date,
         default: Date.now,
