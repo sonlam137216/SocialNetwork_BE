@@ -140,7 +140,34 @@ const postCtrl = {
             res.status(500).json({ success: false, message: 'Interal server error' });
         }
   },
+  updatePost: async (req, res) => {
+    const { postId, content, images } = req.body;
 
+    try {
+      const updatedPost = await Post.updateOne(
+        { _id: postId },
+        { $set: { content: content, images: images } },
+        { new: true }
+      );
+
+      res.json({ success: true, message: 'update post successfully', updatedPost });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'Interal server error' });
+    }
+  },
+  deletePost: async (req, res) => {
+    const { postId } = req.body;
+
+    try {
+      const deletedPost = await Post.deleteOne( { _id: postId });
+
+      res.json({ success: true, message: 'delete post successfully', deletedPost });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ success: false, message: 'Interal server error' });
+    }
+  },
 };
 
 module.exports = postCtrl;
