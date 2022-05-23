@@ -1,9 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const http = require("http");
+const { Server } = require("socket.io");
+
+// socket server
+const SocketServer = require('./socketServer')
+const ChatServer = require('./chatServer');
 
 const postRouter = require('./routes/postRouter');
 const commentRouter = require('./routes/commentRouter');
+const authRouter = require('./routes/authRouter');
 
 const homeRouter = require('./routes/homeRouter');
 const userRouter = require('./routes/userRouter');
@@ -13,6 +20,27 @@ const chatRouter = require('./routes/chatRouter');
 const Comments = require('./model/commentModel');
 
 require('dotenv').config();
+
+
+const app = express();
+
+app.use(express.json());
+app.use(cors());
+
+//socket 
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+    },
+});
+
+io.on("connection", (socket) => {
+    SocketServer(socket)
+    ChatServer(socket)
+})
 
 const connectDB = async () => {
     try {
@@ -33,18 +61,13 @@ const connectDB = async () => {
 
 connectDB();
 
-const app = express();
-
-app.use(express.json());
-app.use(cors());
-
+app.use('/api/auth', authRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/comments', commentRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/user', userRouter);
 app.use('/api/chat', chatRouter);
 
-// app.use('/api/post', authRouter)
 
 const PORT = process.env.PORT || 3001;
 
