@@ -182,3 +182,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 {
     "newName": "Hoi nhung nguoi chan doi"
 }
+
+
+###
+GET http://localhost:3001/api/user/users/getAllUsers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTI5NDY0MTQsImV4cCI6MTY1Mjk4MjQxNH0.Kmb04nsp_K4WDk2azlFVO2kJIw8sUx__k-YV-A_llpY
+
+###
+POST http://localhost:3001/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMwNzEzNTYsImV4cCI6MTY1MzEwNzM1Nn0.GedAjDZpuDt708L8vNApGNF6bBPkLHNuxEKUpKE5YtQ
+
+{
+    "content": "Khang post 3",
+    "images": [
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/qamxhsmcyxl6qaz7dnkk.jpg",
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/rfylddtrk0qduuk1ekb1.jpg",
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/nsp7y91sphyutjndacg4.jpg"
+    ]
+}
