@@ -75,6 +75,20 @@ const postCtrl = {
       res.status(500).json({ message: 'Internal server error!' });
     }
   },
+  
+  getPostById: async (req, res) => {
+    const postId = req.params.id;
+        try {
+            const post = await Post.findById(postId);
+            if (!post) 
+                res.status(400).json({ success: false, message: 'Not found Post' });
+            res.json({ success: true, message: 'Get post success', post });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Interal server error' });
+        }
+  },
+
 };
 
 module.exports = postCtrl;

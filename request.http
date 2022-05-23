@@ -2,8 +2,8 @@ POST http://localhost:5001/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Hữu Khang",
-    "email": "huukhang@gmail.com",
+    "name": "",
+    "email": "ninja@gmail.com",
     "password": "123",
     "confirmPassword": "123"
 }
@@ -13,7 +13,7 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "hoangkhang@gmail.com",
+    "email": "kimnhu@gmail.com",
     "password": "123"
 }
 
@@ -24,10 +24,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NDk5ODQ5NDcsImV4cCI6MTY0OTk4ODU0N30.WPU32w3HHnnNTgHY04XFszxwLbKWHE8oDo_SxFqkiCI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGFlM2ZhYjY5MmNkNTdkMTQyODgiLCJpYXQiOjE2NTIxMTgyMjQsImV4cCI6MTY1MjE1NDIyNH0.7EAZ1dbzEJjwXR8o-AwMoBKXYhJU8LjhnYWoNf5U-O8
 
 {
-    "content": " nhu post 3"
+    "content": " Moi kiem duoc bang tuan hoan nguyen to hoa hoc, vuive-ing"
 }
 
 ###
@@ -37,10 +37,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 
 ###
 POST http://localhost:3001/api/comments/625bbc34fce09e34f4f79ea8/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTAzODgzNTcsImV4cCI6MTY1MDQyNDM1N30.vH_g0jWLJ9BKE4t-KNrZC9o5s1kqhDABg0ZFf3Nq0Nk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGM4MGZhYjY5MmNkNTdkMTQyYTQiLCJpYXQiOjE2NTIxMTgyODQsImV4cCI6MTY1MjE1NDI4NH0.j2hti1uH3cd5vkTOnn8Rf-dzzaRKaKbpDigeMAe1Al4
 
 {
-    "content": " son comment 1"
+    "content": " hello cac ban, minh la ninja"
 }
 
 ###
@@ -105,7 +105,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTAzNTU4NDMsImV4cCI6MTY1MDM5MTg0M30.jqLl6hngpZrsdkYUDlH1HCwVXcSSAAsMoYU1p9y89hA
 
 ###
-<<<<<<< HEAD
 PUT  http://localhost:3001/api/comments/ul/6258d8c2b3040c0398131c09
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTE4NDg5NzgsImV4cCI6MTY1MTg4NDk3OH0.FH9hriEmkJW9MUW2ZRNRD6BLfeLXHJhIIRQWadxlnBs
 
@@ -116,7 +115,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 {
     "_id": "fhofi"
 }
-=======
+
+###
 GET http://localhost:3001/api/chat/getCon
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTAzNTYxMTAsImV4cCI6MTY1MDM5MjExMH0.1N3XnVw9ruEVryMhxE9zOrthssoZ_njApcH1W-kRSRg
@@ -124,7 +124,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 ### 
 GET http://localhost:3001/api/chat/getContact
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTA3MDE2NjIsImV4cCI6MTY1MDczNzY2Mn0.QNv2-aOf_30f6ytCSMLUWzwCajIriqSBLLnHO0tQKA8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGJlMGZhYjY5MmNkNTdkMTQyOTIiLCJpYXQiOjE2NTMxMDc5MDksImV4cCI6MTY1MzE0MzkwOX0.qzfVjP_NQUtrt9gyN5oHLpvqVQGNd8QkOYg1ANR6x2w
 
 ###
 GET http://localhost:3001/api/user/contact
@@ -134,4 +134,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 GET http://localhost:3001/api/chat/62657065df68a8ee7892cfa9
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTA4MTUyNTAsImV4cCI6MTY1MDg1MTI1MH0.X2Hc4IQkQOkDE5BlU7if3HiKLnah9cedBPa9fnqsm4E
 
->>>>>>> 7d8ab14b19cde6ae314a5e7369a8dc1a4f517967
+###
+GET https://localhost:3001/api/posts/62794f061d47d6ed235c0cb4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGJlMGZhYjY5MmNkNTdkMTQyOTIiLCJpYXQiOjE2NTMxMDgwMzcsImV4cCI6MTY1MzE0NDAzN30.EqwXvy9BNnlHxlHhl4TK8frXVxJT65tz517CzTYy2MU
