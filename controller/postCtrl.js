@@ -58,7 +58,7 @@ const postCtrl = {
   },
 
   getPostById: async (req, res) => {
-      const {postId} = req.body
+      const postId = req.params.id
       try {
         const post = await Post.find( {_id: postId} ).populate('user');
         res.json({ message: 'get post successfully', post });

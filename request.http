@@ -18,15 +18,25 @@ Content-Type: application/json
     "password": "123"
 }
 
+###
+POST http://localhost:3001/api/user/change-password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMxOTg2OTQsImV4cCI6MTY1MzIzNDY5NH0.wRtwUh50hyxP46IMiDkFC_LBI1O2k06TlJuCRyDvzWQ
+Content-Type: application/json
+
+{
+    "oldPassword": "123",
+    "newPassword": "123"
+}
+
 
 ###
 GET http://localhost:3001/api/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGFlM2ZhYjY5MmNkNTdkMTQyODgiLCJpYXQiOjE2NTI4NzA2MzQsImV4cCI6MTY1MjkwNjYzNH0.IDaNEIFMPMI0q0T2xLdAwzfy--YWsuytJ4rWCIE7GGA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMxOTcxOTEsImV4cCI6MTY1MzIzMzE5MX0.DgpdUZVIfPujs4A3KKglXHtFfSKrKrK90CGUU6ym3GM
 
 ###
 
-GET http://localhost:3001/api/posts/62794b54fab692cd57d1428f
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGFlM2ZhYjY5MmNkNTdkMTQyODgiLCJpYXQiOjE2NTI4ODI3ODksImV4cCI6MTY1MjkxODc4OX0.dq67pMDYsPK8R5Zw9vNT5if41MVfMWKSg63rkfEKPCY
+GET http://localhost:3001/api/posts/62794f981d47d6ed235c0cba
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMxOTcxOTEsImV4cCI6MTY1MzIzMzE5MX0.DgpdUZVIfPujs4A3KKglXHtFfSKrKrK90CGUU6ym3GM
 
 ###
 POST http://localhost:3001/api/posts
