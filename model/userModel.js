@@ -20,6 +20,14 @@ const userSchema = new Schema({
         type: String,
         default: 'https://res.cloudinary.com/wjbucloud/image/upload/v1651308418/default_svymth.png',
     },
+    gender: {
+        type: String,
+        default: '',
+    },
+    dateofbirth: {
+        type: Date,
+        default: '',
+    },
     role: {
         type: String,
         default: 'male',

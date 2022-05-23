@@ -4,6 +4,7 @@ const postCtrl = require('../controller/postCtrl');
 const verifyToken = require('../middleware/auth');
 
 router.get('/', verifyToken, postCtrl.getPosts);
+router.get('/user/:id', verifyToken, postCtrl.getPostByUserId);
 router.get('/:id', verifyToken, postCtrl.getPostById);
 router.post('/createPost', verifyToken, postCtrl.createPost);
 
