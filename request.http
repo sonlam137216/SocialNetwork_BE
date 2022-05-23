@@ -76,7 +76,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 
 ###
 GET http://localhost:3001/api/home/post
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTI3OTIyMTcsImV4cCI6MTY1MjgyODIxN30.bLY7ivSbyU9tmOnYHt20tP-ooac730dJUjNcERPJgcA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMyODM2NDksImV4cCI6MTY1MzMxOTY0OX0.D4HXHp0ofnOyw3ypHs0BTl8QrdfYnaNgoglU3V1x2x8
 
 ###
 GET http://localhost:3001/api/home/relate
