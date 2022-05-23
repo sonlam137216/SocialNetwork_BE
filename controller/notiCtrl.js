@@ -26,6 +26,24 @@ const notiCtrl = {
         } catch {
             res.status(500).json({ success: false, message: 'Interal server error' });
         }
+    },
+
+    seenNotification: async(req, res) => {
+        const {notiId} = req.body
+        try{
+            const seenNoti = await Noti.findOneAndUpdate(
+                {_id: notiId},
+                {
+                    $set: { isSeen: true }
+                },
+                {
+                    new: true
+                }
+            )
+            res.json({ success: true, message: 'seen noti successfully', seenNoti });
+        } catch {
+            res.status(500).json({ success: false, message: 'Interal server error' });
+        }
     }
 }
 

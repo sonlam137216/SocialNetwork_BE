@@ -17,6 +17,10 @@ const notificatonSchema = new Schema({
     desId: {
         type: mongoose.Types.ObjectId,
     },
+    isSeen: {
+        type: Boolean,
+        default: false,
+    },
     createdAt: {
         type: Date,
         default: Date.now,
