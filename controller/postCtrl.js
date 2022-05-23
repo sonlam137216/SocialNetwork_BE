@@ -2,124 +2,112 @@ const Post = require('../model/postModel');
 const Comment = require('../model/commentModel');
 
 const postCtrl = {
-  getPosts: async (req, res) => {
-    try {
-      const listPost = await Post.find({ user: req.userId }).populate('user');
+    getPosts: async (req, res) => {
+        try {
+            const listPost = await Post.find({ user: req.userId }).populate('user');
 
-      // const posts = listPost.map(async (post, index) => {
-      //   console.log(post);
-      //   const response = await Comment.find({ postId: post._id });
-      //   console.log(response);
-      //   return { ...post, totalComment: response.length };
-      // });
+            // const posts = listPost.map(async (post, index) => {
+            //   console.log(post);
+            //   const response = await Comment.find({ postId: post._id });
+            //   console.log(response);
+            //   return { ...post, totalComment: response.length };
+            // });
 
-      res.json({
-        success: true,
-        message: 'get all post success',
-        listPost,
-        // posts,
-      });
-    } catch (error) {
-      console.log(error);
-      res
-        .status(500)
-        .json({ success: false, message: 'Internal server error' });
-    }
-  },
+            res.json({
+                success: true,
+                message: 'get all post success',
+                listPost,
+                // posts,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
 
-  getPostById: async (req, res) => {
-    const userId = req.params.id;
-    try {
-      const listPost = await Post.find({ user: userId }).populate('user');
+    getPostById: async (req, res) => {
+        const userId = req.params.id;
+        try {
+            const listPost = await Post.find({ user: userId }).populate('user');
 
-      const posts = [];
+            const posts = [];
 
-      listPost.forEach(async (post, index) => {
-        const response = await Comment.find({ postId: post._id });
-        await posts.push({ ...post._doc, total: response?.length });
-      });
+            listPost.forEach(async (post, index) => {
+                const response = await Comment.find({ postId: post._id });
+                await posts.push({ ...post._doc, total: response?.length });
+            });
 
-      const comment = await Comment.find({
-        postId: '627950191d47d6ed235c0cc2',
-      });
+            const comment = await Comment.find({
+                postId: '627950191d47d6ed235c0cc2',
+            });
 
-      res.json({
-        success: true,
-        message: 'get post by id success',
-        listPost,
-        posts,
-      });
-    } catch (error) {
-      console.log(error);
-      res
-        .status(500)
-        .json({ success: false, message: 'Internal server error' });
-    }
-  },
+            res.json({
+                success: true,
+                message: 'get post by id success',
+                listPost,
+                posts,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
 
-  createPost: async (req, res) => {
-    const { content } = req.body;
+    createPost: async (req, res) => {
+        const { content, images } = req.body;
 
-    //simple validation
-    if (!content)
-      return res
-        .status(400)
-        .json({ success: false, message: 'content is required' });
+        try {
+            const newPost = new Post({
+                content: content,
+                images: images,
+                user: req.userId,
+            });
 
-    try {
-      const newPost = new Post({
-        content,
-        user: req.userId,
-      });
+            await newPost.save();
+            res.json({ success: true, message: 'create post successfully', newPost });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Interal server error' });
+        }
+    },
 
-      await newPost.save();
+    likePost: async (req, res) => {
+        const { postId } = req.body;
+        try {
+            const post = await Post.find({ $and: [{ _id: postId }, { like: req.userId }] });
+            if (post.length > 0) return res.status(400).json({ message: 'You liked this post!' });
 
-      res.json({ success: true, message: 'happy learning!', newPost });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ success: false, message: 'Interal server error' });
-    }
-  },
-  likePost: async (req, res) => {
-    const {postId} = req.body
-    try {
-      const post = await Post.find( {$and: [{ _id: postId }, { like: req.userId }]});
-      if (post.length > 0)
-        return res.status(400).json({ message: 'You liked this post!' });
+            const likedPost = await Post.findOneAndUpdate(
+                { _id: postId },
+                { $push: { likes: req.userId } },
+                { new: true }
+            );
 
-      const likedPost = await Post.findOneAndUpdate(
-        { _id: postId },
-        { $push: { likes: req.userId } },
-        { new: true }
-      );
+            if (!like) return res.status(400).json({ message: 'This post does not exist!' });
 
-      if (!like)
-        return res.status(400).json({ message: 'This post does not exist!' });
+            res.json({ message: 'Liked post', likedPost });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Internal server error!' });
+        }
+    },
 
-      res.json({ message: 'Liked post', likedPost });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'Internal server error!' });
-    }
-  },
+    unLikePost: async (req, res) => {
+        try {
+            const post = await Post.findOneAndUpdate(
+                { _id: req.params.id },
+                { $pull: { likes: req.userId } },
+                { new: true }
+            );
 
-  unLikePost: async (req, res) => {
-    try {
-      const post = await Post.findOneAndUpdate(
-        { _id: req.params.id },
-        { $pull: { likes: req.userId } },
-        { new: true }
-      );
+            if (!post) return res.status(400).json({ message: 'This post does not exist!' });
 
-      if (!post)
-        return res.status(400).json({ message: 'This post does not exist!' });
-
-      res.json({ message: 'Unlike post!' });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'Internal server error!' });
-    }
-  },
+            res.json({ message: 'Unlike post!' });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Internal server error!' });
+        }
+    },
 };
 
 module.exports = postCtrl;

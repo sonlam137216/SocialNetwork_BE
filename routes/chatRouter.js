@@ -15,5 +15,6 @@ router.delete('/removeCon', verifyToken, chatCtrl.removeConversation);
 router.patch('/tymMessage', verifyToken, chatCtrl.tymMessage);
 router.patch('/changeName/:id', verifyToken, chatCtrl.changeConversationName);
 router.patch('/unTymMessage', verifyToken, chatCtrl.unTymMessage);
+router.patch('/changeAvatar/:id', verifyToken, chatCtrl.changeConversationAvatar);
 
 module.exports = router;
