@@ -1,37 +1,37 @@
-const path = require('path');
-const http = require('http');
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const { Server } = require('socket.io');
+// const path = require('path');
+// const http = require('http');
+// const express = require('express');
+// const mongoose = require('mongoose');
+// const cors = require('cors');
+// const { Server } = require('socket.io');
 
-const postRouter = require('./routes/postRouter');
-const commentRouter = require('./routes/commentRouter');
-const homeRouter = require('./routes/homeRouter');
-const userRouter = require('./routes/userRouter');
+// const postRouter = require('./routes/postRouter');
+// const commentRouter = require('./routes/commentRouter');
+// const homeRouter = require('./routes/homeRouter');
+// const userRouter = require('./routes/userRouter');
 
-const chatRouter = require('./routes/chatRouter');
+// const chatRouter = require('./routes/chatRouter');
 
-const Message = require('./model/messageModel');
-const User = require('./model/userModel');
+// const Message = require('./model/messageModel');
+// const User = require('./model/userModel');
 
-require('dotenv').config();
+// require('dotenv').config();
 
 const users = {};
 
 const socketToRoom = {};
-const app = express();
-app.use(express.json());
-app.use(cors());
-const chatServer = http.createServer(app);
-const io = new Server(chatServer, {
-    cors: {
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST'],
-    },
-});
+// const app = express();
+// app.use(express.json());
+// app.use(cors());
+// const chatServer = http.createServer(app);
+// const io = new Server(chatServer, {
+//     cors: {
+//         origin: 'http://localhost:3000',
+//         methods: ['GET', 'POST'],
+//     },
+// });
 
-io.on('connection', (socket) => {
+const ChatServer = (socket) => {
     // console.log(socket.id + ' connected.')
 
     socket.on('joinMessenger', (id) => {
@@ -93,21 +93,6 @@ io.on('connection', (socket) => {
         });
     });
 
-    socket.on('disconnect', (id) => {
-        // console.log(socket.id + ' disconnected.')
-        // users = users.filter((user) => user.userId !== socket.id);
-        socket.disconnect();
-    });
-});
+};
 
-app.use('/api/posts', postRouter);
-app.use('/api/comments', commentRouter);
-app.use('/api/home', homeRouter);
-app.use('/api/user', userRouter);
-app.use('/api/chat', chatRouter);
-
-// app.use('/api/post', authRouter)
-
-const PORT = process.env.PORT || 3003;
-
-chatServer.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+module.exports = ChatServer
