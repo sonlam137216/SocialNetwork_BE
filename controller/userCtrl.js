@@ -1,4 +1,5 @@
 const { ObjectId, CURSOR_FLAGS } = require('mongodb');
+const bcrypt = require('bcrypt');
 const User = require('../model/userModel');
 const Post = require('../model/postModel');
 
@@ -6,9 +7,9 @@ const userCtrl = {
   getUser: async (req, res) => {
     try {
       const userId = req.params.id;
-      const user = await User.findOne({_id: userId})
-        //.populate('followers following', '-password')
-        console.log(user)
+      const user = await User.findOne({ _id: userId });
+      //.populate('followers following', '-password')
+      console.log(user);
 
       if (!user)
         res.status(400).json({ success: false, message: 'Not found User' });
@@ -57,7 +58,7 @@ const userCtrl = {
           $pull: { following: req.params.id },
         },
         { new: true }
-      ).populate("followers following");
+      ).populate('followers following');
 
       const unfollowerUser = await User.findOneAndUpdate(
         { _id: req.params.id },
@@ -107,7 +108,7 @@ const userCtrl = {
 
     try {
       const users = await User.find({
-        email: { $regex: search }
+        email: { $regex: search },
       });
 
       res.json({ success: true, users });
@@ -149,7 +150,7 @@ const userCtrl = {
 
   updateUser: async (req, res) => {
     try {
-      const { name, mobile, address, gender } = req.body;
+      const { name, mobile, gender, avatar } = req.body;
       if (!name)
         return res.status(400).json({ msg: 'Please add your full name.' });
 
@@ -158,8 +159,8 @@ const userCtrl = {
         {
           name,
           mobile,
-          address,
           gender,
+          avatar,
         },
         {
           new: true,
@@ -201,23 +202,56 @@ const userCtrl = {
   },
   getListFollowings: async (req, res) => {},
 
-  getAllUsers: async(req, res) => {
-    try{
-      const users = await User.find()
-      const usersngon = users.map(user => {
-        const {
-          pasword, ...others
-        } =user;
+  getAllUsers: async (req, res) => {
+    try {
+      const users = await User.find();
+      const usersngon = users.map((user) => {
+        const { pasword, ...others } = user;
         return others;
-      })
-      res.status(200).json({ success: true, message: 'OK!!', listUser: usersngon});
+      });
+      res
+        .status(200)
+        .json({ success: true, message: 'OK!!', listUser: usersngon });
     } catch (error) {
       res
         .status(500)
         .json({ success: false, message: 'Internal server error!' });
     }
-  }
-};
+  },
+  changePassword: async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.userId;
+    try {
+      const user = await User.findById(userId);
+      if (!user)
+        return res
+          .status(400)
+          .json({ success: false, message: 'Not found user!' });
 
+      // compare password
+      const passwordValid = await bcrypt.compare(oldPassword, user.password);
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      if (!passwordValid)
+        return res
+          .status(400)
+          .json({ success: false, message: 'Password incorrect!' });
+
+      const updatedCondition = { _id: userId };
+
+      const updatedUser = await User.findOneAndUpdate(
+        updatedCondition,
+        { password: hashedPassword },
+        { new: true }
+      );
+
+      res.json({ success: true, message: 'Change password success', updatedUser });
+    } catch (error) {
+      console.log(error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error!' });
+    }
+  },
+};
 
 module.exports = userCtrl;

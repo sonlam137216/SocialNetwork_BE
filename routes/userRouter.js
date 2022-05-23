@@ -33,5 +33,6 @@ router.get('/getAllUsers', verifyToken, userCtrl.getAllUsers)
 
 router.get('/chat/contact', verifyToken, userCtrl.getContactUser)
 
+router.post('/change-password', verifyToken, userCtrl.changePassword)
 module.exports = router
 
