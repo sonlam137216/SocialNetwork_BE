@@ -7,6 +7,8 @@ router.get('/', verifyToken, postCtrl.getPosts)
 router.get('/user/:id', verifyToken, postCtrl.getPostByUserId)
 router.get('/:id', verifyToken, postCtrl.getPostById)
 router.post('/createPost', verifyToken, postCtrl.createPost)
+router.put('/updatePost', verifyToken, postCtrl.updatePost)
+router.delete('/deletePost', verifyToken, postCtrl.deletePost)
 
 //like and unlike
 router.patch('/post/:id/like', verifyToken, postCtrl.likePost)
