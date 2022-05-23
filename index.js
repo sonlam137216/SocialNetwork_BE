@@ -11,6 +11,8 @@ const SocketServer = require("./socketServer");
 const ChatServer = require("./chatServer");
 
 const postRouter = require("./routes/postRouter");
+const notiRouter = require("./routes/notiRouter");
+
 const commentRouter = require("./routes/commentRouter");
 const authRouter = require("./routes/authRouter");
 
@@ -155,6 +157,7 @@ app.use("/api/comments", commentRouter);
 app.use("/api/home", homeRouter);
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/noti", notiRouter);
 
 ExpressPeerServer(http, { path: "/" });
 
