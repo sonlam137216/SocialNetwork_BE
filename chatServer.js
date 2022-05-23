@@ -1,52 +1,37 @@
-const path = require('path');
-const http = require('http');
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const { Server } = require('socket.io');
+// const path = require('path');
+// const http = require('http');
+// const express = require('express');
+// const mongoose = require('mongoose');
+// const cors = require('cors');
+// const { Server } = require('socket.io');
 
-const postRouter = require('./routes/postRouter');
-const commentRouter = require('./routes/commentRouter');
-const homeRouter = require('./routes/homeRouter');
-const userRouter = require('./routes/userRouter');
+// const postRouter = require('./routes/postRouter');
+// const commentRouter = require('./routes/commentRouter');
+// const homeRouter = require('./routes/homeRouter');
+// const userRouter = require('./routes/userRouter');
 
-const chatRouter = require('./routes/chatRouter');
+// const chatRouter = require('./routes/chatRouter');
 
-const Message = require('./model/messageModel');
-const User = require('./model/userModel');
+// const Message = require('./model/messageModel');
+// const User = require('./model/userModel');
 
-require('dotenv').config();
+// require('dotenv').config();
 
-// const connectDB = async () => {
-//     try {
-//         await mongoose.connect(
-//             `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@19522133.i4x3b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-//             {
-//                 useNewUrlParser: true,
-//                 useUnifiedTopology: true,
-//             }
-//         );
+const users = {};
 
-//         console.log('MongoDB connected');
-//     } catch (error) {
-//         console.log(error);
-//         process.exit(1);
-//     }
-// };
+const socketToRoom = {};
+// const app = express();
+// app.use(express.json());
+// app.use(cors());
+// const chatServer = http.createServer(app);
+// const io = new Server(chatServer, {
+//     cors: {
+//         origin: 'http://localhost:3000',
+//         methods: ['GET', 'POST'],
+//     },
+// });
 
-// connectDB();
-const app = express();
-app.use(express.json());
-app.use(cors());
-const chatServer = http.createServer(app);
-const io = new Server(chatServer, {
-    cors: {
-        origin: 'http://localhost:3000',
-        methods: ['GET', 'POST'],
-    },
-});
-
-io.on('connection', (socket) => {
+const ChatServer = (socket) => {
     // console.log(socket.id + ' connected.')
 
     socket.on('joinMessenger', (id) => {
@@ -67,34 +52,47 @@ io.on('connection', (socket) => {
         io.to(mess.conversationId).emit('recieveMessage', mess);
     });
 
+    socket.on('sendTym', (newMessage) => {
+        io.to(newMessage.conversationId).emit('recieveTym', newMessage);
+    });
+
     socket.on('leaveRoom', (room) => {
         socket.leave(room);
     });
 
-    socket.on('callUser', (data) => {
-        io.to(data.userToCall).emit('callUser', { signal: data.signalData, from: data.from, name: data.name });
+    // video call
+
+    socket.on('join room', (roomID) => {
+        if (users[roomID]) {
+            const length = users[roomID].length;
+            if (length === 4) {
+                socket.emit('room full');
+                return;
+            }
+            users[roomID].push(socket.id);
+        } else {
+            users[roomID] = [socket.id];
+        }
+        socketToRoom[socket.id] = roomID;
+        const usersInThisRoom = users[roomID].filter((id) => id !== socket.id);
+
+        socket.emit('all users', usersInThisRoom);
     });
 
-    socket.on('answerCall', (data) => {
-        io.to(data.to).emit('callAccepted', data.signal);
+    socket.on('sending signal', (payload) => {
+        io.to(payload.userToSignal).emit('user joined', { signal: payload.signal, callerID: payload.callerID });
     });
 
-    socket.emit('me', socket.id);
+    socket.on('returning signal', (payload) => {
+        io.to(payload.callerID).emit('receiving returned signal', { signal: payload.signal, id: socket.id });
+    });
 
-    // socket.on('disconnect', (id) => {
-    //     // console.log(socket.id + ' disconnected.')
-    //     // users = users.filter((user) => user.userId !== socket.id);
-    // });
-});
+    socket.on('IamCalling', (props) => {
+        props.members.forEach((member) => {
+            socket.broadcast.to(member._id).emit('recieveCalling', props.videoId);
+        });
+    });
 
-app.use('/api/posts', postRouter);
-app.use('/api/comments', commentRouter);
-app.use('/api/home', homeRouter);
-app.use('/api/user', userRouter);
-app.use('/api/chat', chatRouter);
+};
 
-// app.use('/api/post', authRouter)
-
-const PORT = process.env.PORT || 3002;
-
-chatServer.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+module.exports = ChatServer

@@ -26,31 +26,24 @@ const homeCtrl = {
 
     getRelateUser: async (req, res) => {
         try {
-            //  Lấy user hiện tại
+            let relateUserId = []
+
             const currentUser = await User.findOne({
                 _id: req.userId,
-            });
-            // Lấy user mà user hiện tại đang follow
+            }).populate({path: 'following'});
 
-            const usersWhomCurrentUserFollow = await User.find({
-                _id: { $in: currentUser.following },
+            currentUser.following.forEach(user => {
+                relateUserId = relateUserId.concat(user.following)
             });
 
-            const resolveToFollowingArray = usersWhomCurrentUserFollow
-                .map((user) => {
-                    return `${user.following}`;
-                })
-                .join(',')
-                .split(',')
-                .filter((item) => {
-                    return item != '';
-                });
-            const finalUsers = await User.find({
-                _id: { $in: resolveToFollowingArray },
-            });
-            const finalOfFinalUsers = finalUsers.filter((final) => !final.followers.includes(currentUser._id));
-
-            res.json({ success: true, finalOfFinalUsers });
+            const relateUser = await User.find({
+                $and: [
+                    {_id: relateUserId},
+                    {_id: {$ne: currentUser._id}},
+                    {followers: {$nin: currentUser._id}}
+                ]
+            })
+            res.json({ success: true, relateUser });
         } catch (e) {
             console.log(`api, ${e}`);
             res.status(500).json({ error: e });

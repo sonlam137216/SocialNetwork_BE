@@ -22,7 +22,11 @@ const commentCtrl = {
       // .sort({'createdAt':-1})
       ;
 
-      res.json({ success: true, cmts });
+      if(!cmts) return res.status(400).json({success: false, message: "Can't get comment!"})
+
+      const totalComment = cmts.length
+
+      res.json({ success: true, cmts, totalComment });
     } catch (error) {
       console.log(error);
       res

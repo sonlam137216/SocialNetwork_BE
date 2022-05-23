@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const posts = require('../model/postModel')
 
 const userSchema = new Schema({
     name: {
@@ -18,6 +19,14 @@ const userSchema = new Schema({
     avatar: {
         type: String,
         default: 'https://res.cloudinary.com/wjbucloud/image/upload/v1651308418/default_svymth.png',
+    },
+    gender: {
+        type: String,
+        default: '',
+    },
+    dateofbirth: {
+        type: Date,
+        default: '',
     },
     role: {
         type: String,

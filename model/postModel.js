@@ -4,12 +4,12 @@ const users = require('../model/userModel')
 
 const postSchema = new Schema({
     content: String,
-    images: {
-        type: Array,
+    images: [{
+        type: String,
         required: true
-    },
+    }],
     likes: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
-    comments: [{ type: mongoose.Types.ObjectId, ref: 'comment' }],
+    comments: [{ type: mongoose.Types.ObjectId, ref: 'comments' }],
     user: {type: mongoose.Types.ObjectId, ref: 'users'},
     createdAt: {
       type: Date,
