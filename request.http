@@ -2,10 +2,10 @@ POST http://localhost:3001/api/auth/register
 Content-Type: application/json
 
 {
-  "values" : {
-      "email": "khangnguyen@gmail.com",
-  "password": "123"
-  }
+    "name": "",
+    "email": "ninja@gmail.com",
+    "password": "123",
+    "confirmPassword": "123"
 }
 
 
@@ -14,7 +14,7 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "huukhang@gmail.com",
+    "email": "kimnhu@gmail.com",
     "password": "123"
 }
 
@@ -41,10 +41,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NDk5ODQ5NDcsImV4cCI6MTY0OTk4ODU0N30.WPU32w3HHnnNTgHY04XFszxwLbKWHE8oDo_SxFqkiCI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGFlM2ZhYjY5MmNkNTdkMTQyODgiLCJpYXQiOjE2NTIxMTgyMjQsImV4cCI6MTY1MjE1NDIyNH0.7EAZ1dbzEJjwXR8o-AwMoBKXYhJU8LjhnYWoNf5U-O8
 
 {
-    "content": " nhu post 3"
+    "content": " Moi kiem duoc bang tuan hoan nguyen to hoa hoc, vuive-ing"
 }
 
 ###
@@ -54,10 +54,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 
 ###
 POST http://localhost:3001/api/comments/625bbc34fce09e34f4f79ea8/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODNkYjI4NjQ0OTY4MDM0ZDA4YTMiLCJpYXQiOjE2NTAzODgzNTcsImV4cCI6MTY1MDQyNDM1N30.vH_g0jWLJ9BKE4t-KNrZC9o5s1kqhDABg0ZFf3Nq0Nk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGM4MGZhYjY5MmNkNTdkMTQyYTQiLCJpYXQiOjE2NTIxMTgyODQsImV4cCI6MTY1MjE1NDI4NH0.j2hti1uH3cd5vkTOnn8Rf-dzzaRKaKbpDigeMAe1Al4
 
 {
-    "content": " son comment 1"
+    "content": " hello cac ban, minh la ninja"
 }
 
 ###
@@ -76,7 +76,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 
 ###
 GET http://localhost:3001/api/home/post
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTI3OTIyMTcsImV4cCI6MTY1MjgyODIxN30.bLY7ivSbyU9tmOnYHt20tP-ooac730dJUjNcERPJgcA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMyODM2NDksImV4cCI6MTY1MzMxOTY0OX0.D4HXHp0ofnOyw3ypHs0BTl8QrdfYnaNgoglU3V1x2x8
 
 ###
 GET http://localhost:3001/api/home/relate
@@ -127,6 +127,18 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTAzNTU4NDMsImV4cCI6MTY1MDM5MTg0M30.jqLl6hngpZrsdkYUDlH1HCwVXcSSAAsMoYU1p9y89hA
 
 ###
+PUT  http://localhost:3001/api/comments/ul/6258d8c2b3040c0398131c09
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTE4NDg5NzgsImV4cCI6MTY1MTg4NDk3OH0.FH9hriEmkJW9MUW2ZRNRD6BLfeLXHJhIIRQWadxlnBs
+
+###
+GET  http://localhost:3001/api/user/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2Y2MyMDdhNGU3MWZjNWVlYzQiLCJpYXQiOjE2NTIxMDQxNDcsImV4cCI6MTY1MjE0MDE0N30.ohEZbGySSVjNoXL1k3HDZNtl-5IAvM0YnTtBdSD3McQ
+
+{
+    "_id": "fhofi"
+}
+
+###
 GET http://localhost:3001/api/chat/getCon
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTAzNTYxMTAsImV4cCI6MTY1MDM5MjExMH0.1N3XnVw9ruEVryMhxE9zOrthssoZ_njApcH1W-kRSRg
@@ -134,7 +146,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y
 ### 
 GET http://localhost:3001/api/chat/getContact
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjU2Y2U2MWMyMDdhNGU3MWZjNWVlYzEiLCJpYXQiOjE2NTA3MDE2NjIsImV4cCI6MTY1MDczNzY2Mn0.QNv2-aOf_30f6ytCSMLUWzwCajIriqSBLLnHO0tQKA8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGJlMGZhYjY5MmNkNTdkMTQyOTIiLCJpYXQiOjE2NTMxMDc5MDksImV4cCI6MTY1MzE0MzkwOX0.qzfVjP_NQUtrt9gyN5oHLpvqVQGNd8QkOYg1ANR6x2w
 
 ###
 GET http://localhost:3001/api/user/contact
@@ -143,6 +155,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyO
 ###
 GET http://localhost:3001/api/chat/62657065df68a8ee7892cfa9
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MjUyODUzMjNmNGIyZGZhMDU0NjUzM2MiLCJpYXQiOjE2NTA4MTUyNTAsImV4cCI6MTY1MDg1MTI1MH0.X2Hc4IQkQOkDE5BlU7if3HiKLnah9cedBPa9fnqsm4E
+
+###
+GET https://localhost:3001/api/posts/62794f061d47d6ed235c0cb4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGJlMGZhYjY5MmNkNTdkMTQyOTIiLCJpYXQiOjE2NTMxMDgwMzcsImV4cCI6MTY1MzE0NDAzN30.EqwXvy9BNnlHxlHhl4TK8frXVxJT65tz517CzTYy2MU
 
 ###
 POST http://localhost:3001/api/user/update
@@ -165,4 +181,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 
 {
     "newName": "Hoi nhung nguoi chan doi"
+}
+
+
+###
+GET http://localhost:3001/api/user/users/getAllUsers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTI5NDY0MTQsImV4cCI6MTY1Mjk4MjQxNH0.Kmb04nsp_K4WDk2azlFVO2kJIw8sUx__k-YV-A_llpY
+
+###
+POST http://localhost:3001/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMwNzEzNTYsImV4cCI6MTY1MzEwNzM1Nn0.GedAjDZpuDt708L8vNApGNF6bBPkLHNuxEKUpKE5YtQ
+
+{
+    "content": "Khang post 3",
+    "images": [
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/qamxhsmcyxl6qaz7dnkk.jpg",
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/rfylddtrk0qduuk1ekb1.jpg",
+        "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/nsp7y91sphyutjndacg4.jpg"
+    ]
 }

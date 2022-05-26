@@ -20,7 +20,6 @@ const userCtrl = {
     }
   },
   follow: async (req, res) => {
-    console.log(req.params.id);
     try {
       const user = await User.find({
         _id: req.userId,
@@ -207,9 +206,10 @@ const userCtrl = {
     try {
       const users = await User.find();
       const usersngon = users.map((user) => {
-        const { pasword, ...others } = user;
+        const { password, ...others } = user._doc;
         return others;
       });
+      console.log(usersngon);
       res
         .status(200)
         .json({ success: true, message: "OK!!", listUser: usersngon });
