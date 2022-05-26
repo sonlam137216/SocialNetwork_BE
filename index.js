@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
 
   socket.on("joinComment", (message) => {
+    console.log("Đã join vào room" + message);
     socket.join(message);
   });
 
@@ -61,9 +62,15 @@ io.on("connection", (socket) => {
     socket.join(useId);
   });
 
-  socket.on("send_notificaton", ({ userId, type, senderName, postId }) => {
-    console.log(senderName + "vừa gửi thông báo");
-    io.to(userId).emit("receive_notification", { type, senderName, postId });
+  socket.on("send_notificaton", ({ userId, type, senderName, postId, img }) => {
+    console.log("Id của thằng nhận thông báo");
+    console.log(userId);
+    io.to(userId).emit("receive_notification", {
+      type,
+      senderName,
+      postId,
+      img,
+    });
   });
 
   socket.on("joinMessenger", (id) => {
