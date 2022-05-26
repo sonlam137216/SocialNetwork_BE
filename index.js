@@ -10,9 +10,11 @@ const { ExpressPeerServer } = require('peer');
 const SocketServer = require('./socketServer');
 const ChatServer = require('./chatServer');
 
-const postRouter = require('./routes/postRouter');
-const commentRouter = require('./routes/commentRouter');
-const authRouter = require('./routes/authRouter');
+const postRouter = require("./routes/postRouter");
+const notiRouter = require("./routes/notiRouter");
+
+const commentRouter = require("./routes/commentRouter");
+const authRouter = require("./routes/authRouter");
 
 const homeRouter = require('./routes/homeRouter');
 const userRouter = require('./routes/userRouter');
@@ -153,12 +155,22 @@ const connectDB = async () => {
 
 connectDB();
 
+<<<<<<< HEAD
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/comments', commentRouter);
 app.use('/api/home', homeRouter);
 app.use('/api/user', userRouter);
 app.use('/api/chat', chatRouter);
+=======
+app.use("/api/auth", authRouter);
+app.use("/api/posts", postRouter);
+app.use("/api/comments", commentRouter);
+app.use("/api/home", homeRouter);
+app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
+app.use("/api/noti", notiRouter);
+>>>>>>> 3c5426c9da16c380d22c3658ca90fcf94cbb6205
 
 ExpressPeerServer(http, { path: '/' });
 
