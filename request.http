@@ -14,7 +14,7 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "kimnhu@gmail.com",
+    "email": "huukhang@gmail.com",
     "password": "123"
 }
 
@@ -201,3 +201,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
         "https://res.cloudinary.com/wjbucloud/image/upload/v1653069091/nsp7y91sphyutjndacg4.jpg"
     ]
 }
+###
+
+PATCH  http://localhost:3001/api/chat/addUser
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTM0MDY5NzYsImV4cCI6MTY1MzQ0Mjk3Nn0.7TRBtxJygN9zIMOHIP6ziqpnRJEPBCSUZGUzlroefBs
+
+{
+    "usersId": [
+        "62794be0fab692cd57d14292",
+        "62794bf6fab692cd57d14298"
+],
+    "conversationId": "628cf20ab070426f66946430"
+}
+
+###
+GET http://localhost:3001/api/user/users/getAllUsers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTM0MTU2MTksImV4cCI6MTY1MzQ1MTYxOX0.JkCRtkI5wHTqx9KrDhTWzdTnGD5ezwvOSeFyxW2geig

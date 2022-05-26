@@ -14,6 +14,10 @@ const messagesSchema = new Schema({
             required: true,
         },
     },
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
     tym: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
     createdAt: {
         type: Date,
