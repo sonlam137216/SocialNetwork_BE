@@ -16,5 +16,6 @@ router.patch('/tymMessage', verifyToken, chatCtrl.tymMessage);
 router.patch('/changeName/:id', verifyToken, chatCtrl.changeConversationName);
 router.patch('/unTymMessage', verifyToken, chatCtrl.unTymMessage);
 router.patch('/changeAvatar/:id', verifyToken, chatCtrl.changeConversationAvatar);
+router.delete('/deleteMessage/:messageId', verifyToken, chatCtrl.removeMessage);
 
 module.exports = router;

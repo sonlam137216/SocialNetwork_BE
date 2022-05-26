@@ -183,9 +183,10 @@ const userCtrl = {
         try {
             const users = await User.find();
             const usersngon = users.map((user) => {
-                const { pasword, ...others } = user;
+                const { password, ...others } = user._doc;
                 return others;
             });
+            console.log(usersngon);
             res.status(200).json({ success: true, message: 'OK!!', listUser: usersngon });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Internal server error!' });
