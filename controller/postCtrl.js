@@ -96,7 +96,7 @@ const postCtrl = {
         { new: true }
       );
 
-      if (!like)
+      if (!likedPost)
         return res.status(400).json({ message: "This post does not exist!" });
 
       res.json({ message: "Liked post", likedPost });

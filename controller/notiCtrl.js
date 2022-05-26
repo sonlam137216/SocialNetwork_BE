@@ -52,6 +52,23 @@ const notiCtrl = {
       res.status(500).json({ success: false, message: "Interal server error" });
     }
   },
+
+  seenAllNotification: async (req, res) => {
+    try {
+      const seenNoti = await Noti.updateMany(
+        { receiver: req.userId },
+        {
+          $set: { isSeen: true },
+        },
+        {
+          new: true,
+        }
+      );
+      res.json({ success: true, message: "seen noti successfully", seenNoti });
+    } catch {
+      res.status(500).json({ success: false, message: "Interal server error" });
+    }
+  },
 };
 
 module.exports = notiCtrl;

@@ -16,7 +16,7 @@ router.patch("/user/:id/unfollow", verifyToken, userCtrl.unfollow);
 router.get("/suggest", verifyToken);
 
 // get array of users
-router.get("/users", verifyToken, userCtrl.getUsers);
+router.post("/users", verifyToken, userCtrl.getUsers);
 
 //update user
 router.post("/update", verifyToken, userCtrl.updateUser),

@@ -1,7 +1,7 @@
-const { ObjectId, CURSOR_FLAGS } = require('mongodb');
-const bcrypt = require('bcrypt');
-const User = require('../model/userModel');
-const Post = require('../model/postModel');
+const { ObjectId, CURSOR_FLAGS } = require("mongodb");
+const bcrypt = require("bcrypt");
+const User = require("../model/userModel");
+const Post = require("../model/postModel");
 
 const userCtrl = {
   getUser: async (req, res) => {
@@ -12,14 +12,15 @@ const userCtrl = {
       console.log(user);
 
       if (!user)
-        res.status(400).json({ success: false, message: 'Not found User' });
-      res.json({ success: true, message: 'Get user success', user });
+        res.status(400).json({ success: false, message: "Not found User" });
+      res.json({ success: true, message: "Get user success", user });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Interal server error' });
+      res.status(500).json({ success: false, message: "Interal server error" });
     }
   },
   follow: async (req, res) => {
+    console.log(req.params.id);
     try {
       const user = await User.find({
         _id: req.userId,
@@ -28,7 +29,7 @@ const userCtrl = {
       if (user.length != 0)
         return res
           .status(400)
-          .json({ success: true, message: 'You have followed this user!' });
+          .json({ success: true, message: "You have followed this user!" });
 
       const followingUser = await User.findByIdAndUpdate(
         { _id: req.userId },
@@ -42,12 +43,12 @@ const userCtrl = {
         { new: true }
       );
 
-      res.json({ success: true, message: 'update follow user', followingUser });
+      res.json({ success: true, message: "update follow user", followingUser });
     } catch (error) {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error' });
+        .json({ success: false, message: "Internal server error" });
     }
   },
   unfollow: async (req, res) => {
@@ -58,7 +59,7 @@ const userCtrl = {
           $pull: { following: req.params.id },
         },
         { new: true }
-      ).populate('followers following');
+      ).populate("followers following");
 
       const unfollowerUser = await User.findOneAndUpdate(
         { _id: req.params.id },
@@ -69,7 +70,7 @@ const userCtrl = {
       );
 
       if (!unfollowUser || !unfollowerUser) {
-        res.status(400).json('Does not update user');
+        res.status(400).json("Does not update user");
       }
 
       // if (unfollowUser.length == 0)
@@ -79,7 +80,7 @@ const userCtrl = {
 
       res.json({
         success: true,
-        message: 'unfollow User',
+        message: "unfollow User",
         unfollowUser,
         unfollowerUser,
       });
@@ -87,7 +88,7 @@ const userCtrl = {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error' });
+        .json({ success: false, message: "Internal server error" });
     }
   },
 
@@ -98,13 +99,13 @@ const userCtrl = {
     if (!search)
       return res
         .status(400)
-        .json({ success: false, message: 'username is required' });
+        .json({ success: false, message: "username is required" });
 
     //simple validation
     if (!search)
       return res
         .status(400)
-        .json({ success: false, message: 'username is required' });
+        .json({ success: false, message: "username is required" });
 
     try {
       const users = await User.find({
@@ -114,7 +115,7 @@ const userCtrl = {
       res.json({ success: true, users });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Interal server error' });
+      res.status(500).json({ success: false, message: "Interal server error" });
     }
   },
   getUsers: async (req, res) => {
@@ -130,7 +131,7 @@ const userCtrl = {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error' });
+        .json({ success: false, message: "Internal server error" });
     }
   },
   getContactUser: async (req, res) => {
@@ -138,13 +139,13 @@ const userCtrl = {
       const contactUsers = (
         await User.findOne({
           _id: req.userId,
-        }).populate({ path: 'following' })
+        }).populate({ path: "following" })
       ).following;
 
       res.json({ success: true, contactUsers });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Interal server error' });
+      res.status(500).json({ success: false, message: "Interal server error" });
     }
   },
 
@@ -152,7 +153,7 @@ const userCtrl = {
     try {
       const { name, mobile, gender, avatar } = req.body;
       if (!name)
-        return res.status(400).json({ msg: 'Please add your full name.' });
+        return res.status(400).json({ msg: "Please add your full name." });
 
       const updatedUser = await User.findOneAndUpdate(
         { _id: req.userId },
@@ -169,35 +170,35 @@ const userCtrl = {
 
       res.json({
         success: true,
-        message: 'Updated successfully',
+        message: "Updated successfully",
         user: updatedUser,
       });
     } catch (error) {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error!' });
+        .json({ success: false, message: "Internal server error!" });
     }
   },
 
   getUserInfo: async (req, res) => {
     try {
       const user = await User.findById(req.params.id).populate(
-        'followers following'
+        "followers following"
       );
       if (!user)
-        res.status(400).json({ success: false, message: 'Not found user!' });
+        res.status(400).json({ success: false, message: "Not found user!" });
 
       res.json({
         success: true,
-        message: 'get user info success',
+        message: "get user info success",
         userInfo: user,
       });
     } catch (error) {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error!' });
+        .json({ success: false, message: "Internal server error!" });
     }
   },
   getListFollowings: async (req, res) => {},
@@ -211,11 +212,11 @@ const userCtrl = {
       });
       res
         .status(200)
-        .json({ success: true, message: 'OK!!', listUser: usersngon });
+        .json({ success: true, message: "OK!!", listUser: usersngon });
     } catch (error) {
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error!' });
+        .json({ success: false, message: "Internal server error!" });
     }
   },
   changePassword: async (req, res) => {
@@ -226,7 +227,7 @@ const userCtrl = {
       if (!user)
         return res
           .status(400)
-          .json({ success: false, message: 'Not found user!' });
+          .json({ success: false, message: "Not found user!" });
 
       // compare password
       const passwordValid = await bcrypt.compare(oldPassword, user.password);
@@ -234,7 +235,7 @@ const userCtrl = {
       if (!passwordValid)
         return res
           .status(400)
-          .json({ success: false, message: 'Password incorrect!' });
+          .json({ success: false, message: "Password incorrect!" });
 
       const updatedCondition = { _id: userId };
 
@@ -244,12 +245,16 @@ const userCtrl = {
         { new: true }
       );
 
-      res.json({ success: true, message: 'Change password success', updatedUser });
+      res.json({
+        success: true,
+        message: "Change password success",
+        updatedUser,
+      });
     } catch (error) {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: 'Internal server error!' });
+        .json({ success: false, message: "Internal server error!" });
     }
   },
 };
