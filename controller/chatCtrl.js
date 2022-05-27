@@ -121,9 +121,14 @@ const chatCtrl = {
 
     getMessageInConversation: async (req, res) => {
         try {
+            const { page } = req.query;
             const messages = await Mess.find({
                 conversationId: req.params.id,
-            }).populate({ path: 'sender' });
+            })
+                .populate({ path: 'sender' })
+                .sort({ createdAt: -1 })
+                .skip(10 * page)
+                .limit(10);
             res.status(200).json({ success: true, message: 'messages by conversation Id', messages });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
@@ -259,7 +264,7 @@ const chatCtrl = {
                 { _id: messageId },
                 { $set: { isDeleted: true } },
                 { new: true }
-            );
+            ).populate({ path: 'sender' });
 
             res.json({ success: true, message: 'delete message successfully', deletedMessage });
             //socket.emit('sendMessage', newMessage)
