@@ -5,9 +5,9 @@ const messagesSchema = new Schema({
     conversationId: { type: mongoose.Types.ObjectId, ref: 'conversations' },
     sender: { type: mongoose.Types.ObjectId, ref: 'users' },
     content: {
-        isImage: {
-            type: Boolean,
-            default: false,
+        messType: {
+            type: String,
+            default: 'text',
         },
         text: {
             type: String,
@@ -18,6 +18,10 @@ const messagesSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    isSeen: [{
+        type: mongoose.Types.ObjectId,
+        default: '',
+    }],
     tym: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
     createdAt: {
         type: Date,

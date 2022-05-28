@@ -97,8 +97,9 @@ const chatCtrl = {
                 conversationId: req.body.conversationId,
                 content: {
                     text: req.body.content,
-                    isImage: req.body.isImage,
+                    messType: req.body.messType,
                 },
+                isSeen: req.userId
             });
 
             await newMessage.save();
@@ -257,6 +258,7 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
+
     removeMessage: async (req, res) => {
         try {
             const { messageId } = req.params;
@@ -273,6 +275,42 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
+
+    seenAllMessages: async(req, res) => {
+        try {
+            const {conId} = req.params;
+            console.log('seen ', conId)
+            const seenAll = await Mess.updateMany(
+                { conversationId: conId },
+                { $addToSet: { isSeen: req.userId } },
+                { new: true }
+            );
+
+            res.json({ success: true, message: 'delete message successfully', seenAll });
+            //socket.emit('sendMessage', newMessage)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    }, 
+
+    seenMessage: async(req, res) => {
+        try {
+            const {messId} = req.body
+            console.log('seen 1 mess ', messId)
+            const seenMessage = await Mess.findByIdAndUpdate(
+                { _id: messId },
+                { $addToSet: { isSeen: req.userId } },
+                { new: true }
+            );
+
+            res.json({ success: true, message: 'delete message successfully', seenMessage });
+            //socket.emit('sendMessage', newMessage)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    }
 };
 
 module.exports = chatCtrl;
