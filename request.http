@@ -14,7 +14,7 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "huukhang@gmail.com",
+    "email": "sonlam@gmail.com",
     "password": "123"
 }
 
@@ -102,9 +102,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 
 
 ###
-PATCH http://localhost:3001/api/user/user/62794beafab692cd57d14295/unfollow
+PATCH http://localhost:3001/api/user/user/62794c80fab692cd57d142a4/unfollow
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGFlM2ZhYjY5MmNkNTdkMTQyODgiLCJpYXQiOjE2NTI2MzAxNjcsImV4cCI6MTY1MjY2NjE2N30.bGYvDHDmVsz-XQ1OKnVehunHoGmD2hMjb4OJ-5gnoYM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTM5MDc4MjIsImV4cCI6MTY1Mzk0MzgyMn0.kdARitw-6W7CC6pqBlsYbnI3DgMeInekUB9ihrDl1SU
 
 
 ###
@@ -218,3 +218,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 ###
 GET http://localhost:3001/api/user/users/getAllUsers
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTM0MTU2MTksImV4cCI6MTY1MzQ1MTYxOX0.JkCRtkI5wHTqx9KrDhTWzdTnGD5ezwvOSeFyxW2geig
+
+
+###
+DELETE http://localhost:3001/api/posts/delete/627950f51d47d6ed235c0cd4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTM4MDI3NDQsImV4cCI6MTY1MzgzODc0NH0.655TUtw5GK1DzUobiD5faE3xvkT75OA2SK0LqhR9kxQ

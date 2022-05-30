@@ -76,7 +76,46 @@ const userCtrl = {
                 success: true,
                 message: 'unfollow User',
                 unfollowUser,
-                unfollowerUser,
+                // unfollowerUser,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    },
+
+    removeFollow: async (req, res) => {
+        try {
+            const unfollowUser = await User.findOneAndUpdate(
+                { _id: req.userId },
+                {
+                    $pull: { following: req.params.id },
+                },
+                { new: true }
+            ).populate('followers following');
+
+            const unfollowerUser = await User.findOneAndUpdate(
+                { _id: req.params.id },
+                {
+                    $pull: { followers: req.userId },
+                },
+                { new: true }
+            );
+
+            if (!unfollowUser || !unfollowerUser) {
+                res.status(400).json('Does not update user');
+            }
+
+            // if (unfollowUser.length == 0)
+            //   res
+            //     .status(400)
+            //     .json({ success: false, message: 'Not found unfollow User' });
+
+            res.json({
+                success: true,
+                message: 'unfollow User',
+                unfollowUser,
+                // unfollowerUser,
             });
         } catch (error) {
             console.log(error);
@@ -135,7 +174,7 @@ const userCtrl = {
 
     updateUser: async (req, res) => {
         try {
-            const { name, mobile, gender, avatar } = req.body;
+            const { name, mobile, role, avatar } = req.body;
             if (!name) return res.status(400).json({ msg: 'Please add your full name.' });
 
             const updatedUser = await User.findOneAndUpdate(
@@ -143,7 +182,7 @@ const userCtrl = {
                 {
                     name,
                     mobile,
-                    gender,
+                    role,
                     avatar,
                 },
                 {
