@@ -8,7 +8,7 @@ router.get('/user/:id', verifyToken, postCtrl.getPostByUserId)
 router.get('/:id', verifyToken, postCtrl.getPostById)
 router.post('/createPost', verifyToken, postCtrl.createPost)
 router.patch('/updatePost', verifyToken, postCtrl.updatePost)
-router.delete('/deletePost', verifyToken, postCtrl.deletePost)
+router.delete('/delete/:id', verifyToken, postCtrl.deletePost)
 
 
 //like and unlike

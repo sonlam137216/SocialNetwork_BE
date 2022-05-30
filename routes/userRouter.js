@@ -11,6 +11,7 @@ router.post("/search", verifyToken, userCtrl.searchUser);
 // follow and unfollow
 router.patch("/user/:id/follow", verifyToken, userCtrl.follow);
 router.patch("/user/:id/unfollow", verifyToken, userCtrl.unfollow);
+router.patch("/user/:id/remove-follow", verifyToken, userCtrl.removeFollow);
 
 // suggestion users
 router.get("/suggest", verifyToken);

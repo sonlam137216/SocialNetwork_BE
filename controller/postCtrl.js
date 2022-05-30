@@ -1,10 +1,10 @@
-const Post = require("../model/postModel");
-const Comment = require("../model/commentModel");
+const Post = require('../model/postModel');
+const Comment = require('../model/commentModel');
 
 const postCtrl = {
   getPosts: async (req, res) => {
     try {
-      const listPost = await Post.find({ user: req.userId }).populate("user");
+      const listPost = await Post.find({ user: req.userId }).populate('user');
 
       // const posts = listPost.map(async (post, index) => {
       //   console.log(post);
@@ -15,7 +15,7 @@ const postCtrl = {
 
       res.json({
         success: true,
-        message: "get all post success",
+        message: 'get all post success',
         listPost,
         // posts,
       });
@@ -23,14 +23,14 @@ const postCtrl = {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: 'Internal server error' });
     }
   },
 
   getPostByUserId: async (req, res) => {
     const userId = req.params.id;
     try {
-      const listPost = await Post.find({ user: userId }).populate("user");
+      const listPost = await Post.find({ user: userId }).populate('user');
 
       const posts = [];
 
@@ -40,12 +40,12 @@ const postCtrl = {
       });
 
       const comment = await Comment.find({
-        postId: "627950191d47d6ed235c0cc2",
+        postId: '627950191d47d6ed235c0cc2',
       });
 
       res.json({
         success: true,
-        message: "get post by id success",
+        message: 'get post by id success',
         listPost,
         posts,
       });
@@ -53,18 +53,18 @@ const postCtrl = {
       console.log(error);
       res
         .status(500)
-        .json({ success: false, message: "Internal server error" });
+        .json({ success: false, message: 'Internal server error' });
     }
   },
 
   getPostById: async (req, res) => {
     const postId = req.params.id;
     try {
-      const post = await Post.find({ _id: postId }).populate("user");
-      res.json({ message: "get post successfully", post });
+      const post = await Post.find({ _id: postId }).populate('user');
+      res.json({ message: 'get post successfully', post });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal server error!" });
+      res.status(500).json({ message: 'Internal server error!' });
     }
   },
 
@@ -80,47 +80,50 @@ const postCtrl = {
 
       await newPost.save();
 
-      res.json({ success: true, message: "create post successfully", newPost });
+      res.json({ success: true, message: 'create post successfully', newPost });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Interal server error" });
+      res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
   updatePost: async (req, res) => {
     const { postId, content, images } = req.body;
 
     try {
-      const updatedPost = await Post.updateOne(
+      const updatedPost = await Post.findOneAndUpdate(
         { _id: postId },
-        { $set: { content: content, images: images } },
+        { content: content, images: images },
         { new: true }
       );
 
       res.json({
         success: true,
-        message: "update post successfully",
+        message: 'update post successfully',
         updatedPost,
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Interal server error" });
+      res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
 
   deletePost: async (req, res) => {
-    const { postId } = req.body;
-
     try {
-      const deletedPost = await Post.deleteOne({ _id: postId });
+      const postId = req.params.id;
+      const deletedPost = await Post.findOneAndDelete({ _id: postId });
+
+      if (!deletedPost) {
+        res.status(400).json({ success: false, message: 'Post not found' });
+      }
 
       res.json({
         success: true,
-        message: "delete post successfully",
+        message: 'delete post successfully',
         deletedPost,
       });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: "Interal server error" });
+      res.status(500).json({ success: false, message: 'Interal server error' });
     }
   },
 
@@ -134,12 +137,12 @@ const postCtrl = {
       );
 
       if (!likedPost)
-        return res.status(400).json({ message: "This post does not exist!" });
+        return res.status(400).json({ message: 'This post does not exist!' });
 
-      res.json({ message: "Liked post", likedPost });
+      res.json({ message: 'Liked post', likedPost });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal server error!" });
+      res.status(500).json({ message: 'Internal server error!' });
     }
   },
 
@@ -152,12 +155,12 @@ const postCtrl = {
       );
 
       if (!post)
-        return res.status(400).json({ message: "This post does not exist!" });
+        return res.status(400).json({ message: 'This post does not exist!' });
 
-      res.json({ message: "Unlike post!" });
+      res.json({ message: 'Unlike post!' });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Internal server error!" });
+      res.status(500).json({ message: 'Internal server error!' });
     }
   },
 };
