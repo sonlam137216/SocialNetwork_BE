@@ -97,8 +97,9 @@ const chatCtrl = {
                 conversationId: req.body.conversationId,
                 content: {
                     text: req.body.content,
-                    isImage: req.body.isImage,
+                    messType: req.body.messType,
                 },
+                isSeen: req.userId
             });
 
             await newMessage.save();
@@ -121,9 +122,14 @@ const chatCtrl = {
 
     getMessageInConversation: async (req, res) => {
         try {
+            const { page } = req.query;
             const messages = await Mess.find({
                 conversationId: req.params.id,
-            }).populate({ path: 'sender' });
+            })
+                .populate({ path: 'sender' })
+                .sort({ createdAt: -1 })
+                .skip(10 * page)
+                .limit(10);
             res.status(200).json({ success: true, message: 'messages by conversation Id', messages });
             //socket.emit('sendMessage', newMessage)
         } catch (error) {
@@ -252,6 +258,7 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
+
     removeMessage: async (req, res) => {
         try {
             const { messageId } = req.params;
@@ -259,7 +266,7 @@ const chatCtrl = {
                 { _id: messageId },
                 { $set: { isDeleted: true } },
                 { new: true }
-            );
+            ).populate({ path: 'sender' });
 
             res.json({ success: true, message: 'delete message successfully', deletedMessage });
             //socket.emit('sendMessage', newMessage)
@@ -268,6 +275,42 @@ const chatCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
+
+    seenAllMessages: async(req, res) => {
+        try {
+            const {conId} = req.params;
+            console.log('seen ', conId)
+            const seenAll = await Mess.updateMany(
+                { conversationId: conId },
+                { $addToSet: { isSeen: req.userId } },
+                { new: true }
+            );
+
+            res.json({ success: true, message: 'delete message successfully', seenAll });
+            //socket.emit('sendMessage', newMessage)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    }, 
+
+    seenMessage: async(req, res) => {
+        try {
+            const {messId} = req.body
+            console.log('seen 1 mess ', messId)
+            const seenMessage = await Mess.findByIdAndUpdate(
+                { _id: messId },
+                { $addToSet: { isSeen: req.userId } },
+                { new: true }
+            );
+
+            res.json({ success: true, message: 'delete message successfully', seenMessage });
+            //socket.emit('sendMessage', newMessage)
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error' });
+        }
+    }
 };
 
 module.exports = chatCtrl;
