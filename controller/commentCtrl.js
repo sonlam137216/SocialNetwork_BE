@@ -5,26 +5,34 @@ const Post = require('../model/postModel');
 const commentCtrl = {
   getComments: async (req, res) => {
     try {
-      const cmts = await Comment.find({postId: req.params.postId, parent: 'x'})
-      .populate({
-        path: 'reply', 
-        populate: [{
-          path: 'reply', 
-          populate: [{
-            path: 'reply', 
-            populate: [{path: 'reply'}, {path: 'user'}
-            ]}, 
-            {path: 'user'}
-          ]}, 
-          {path: 'user'}]
+      const cmts = await Comment.find({
+        postId: req.params.postId,
+        parent: 'x',
       })
-      .populate({path: 'user'})
+        .populate({
+          path: 'reply',
+          populate: [
+            {
+              path: 'reply',
+              populate: [
+                {
+                  path: 'reply',
+                  populate: [{ path: 'reply' }, { path: 'user' }],
+                },
+                { path: 'user' },
+              ],
+            },
+            { path: 'user' },
+          ],
+        })
+        .populate({ path: 'user' });
       // .sort({'createdAt':-1})
-      ;
+      if (!cmts)
+        return res
+          .status(400)
+          .json({ success: false, message: "Can't get comment!" });
 
-      if(!cmts) return res.status(400).json({success: false, message: "Can't get comment!"})
-
-      const totalComment = cmts.length
+      const totalComment = cmts.length;
 
       res.json({ success: true, cmts, totalComment });
     } catch (error) {
@@ -44,7 +52,10 @@ const commentCtrl = {
         .json({ success: false, message: 'content is required' });
 
     try {
-      const userId = await Post.findOne({_id: mongoose.Types.ObjectId(req.params.postId)}, {_id: 0, user: 1});
+      const userId = await Post.findOne(
+        { _id: mongoose.Types.ObjectId(req.params.postId) },
+        { _id: 0, user: 1 }
+      );
 
       const newComment = new Comment({
         content,
@@ -54,24 +65,53 @@ const commentCtrl = {
         // tag:
         likes: [],
         reply: [],
-        parent: (req.params.commentId) ? null : 'x'
+        parent: req.params.commentId ? null : 'x',
       });
+
+      await Post.findOneAndUpdate(
+        { _id: req.params.postId },
+        {
+          $push: { comments: newComment._id },
+        },
+        { new: true }
+      );
 
       await newComment.save();
 
-      if(req.params.commentId) {
+      if (req.params.commentId) {
         const newCommentId = await Comment.findOne(
-          {user: req.userId, postId: req.params.postId, postUserId: userId.user, reply: [], content}, 
-          {_id:1, content: 0, reply: 0, likes: 0, postId: 0, postUserId: 0, user: 0, tag: 0, __v: 0}
-        ); 
+          {
+            user: req.userId,
+            postId: req.params.postId,
+            postUserId: userId.user,
+            reply: [],
+            content,
+          },
+          {
+            _id: 1,
+            content: 0,
+            reply: 0,
+            likes: 0,
+            postId: 0,
+            postUserId: 0,
+            user: 0,
+            tag: 0,
+            __v: 0,
+          }
+        );
 
-        const updateReply = await Comment.findOneAndUpdate({ _id: mongoose.Types.ObjectId(req.params.commentId)}, {$push: {reply: newCommentId._id}});
+        const updateReply = await Comment.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.commentId) },
+          { $push: { reply: newCommentId._id } }
+        );
       }
 
       res.json({ success: true, message: 'comment successfully!', newComment });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
     }
   },
 
@@ -87,53 +127,82 @@ const commentCtrl = {
     try {
       console.log(req.body);
       console.log(req.params.commentId);
-      const updated = await Comment.updateOne({_id: mongoose.Types.ObjectId(req.params.commentId)}, {$set: {content}});
+      const updated = await Comment.updateOne(
+        { _id: mongoose.Types.ObjectId(req.params.commentId) },
+        { $set: { content } }
+      );
 
-      res.json({ success: true, message: 'update comment successfully!', updated });
+      res.json({
+        success: true,
+        message: 'update comment successfully!',
+        updated,
+      });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
     }
   },
 
   deleteComment: async (req, res) => {
     try {
-      const deleted = await Comment.deleteOne({_id: mongoose.Types.ObjectId(req.params.commentId)});
-
-      const pop_cmts = await Comment.find({reply: mongoose.Types.ObjectId(req.params.commentId)}, (err, cmts) => {
-        cmts.forEach((cmt) => {
-          cmt.updateOne({$pull: {reply: mongoose.Types.ObjectId(req.params.commentId)}}, function(err) {
-            if (err){
-              console.log(err);
-            }});
-        });
-      }).clone().catch(function(err){ 
-        console.log(err);
+      const deleted = await Comment.deleteOne({
+        _id: mongoose.Types.ObjectId(req.params.commentId),
       });
-      res.json({ success: true, message: 'delete comment successfully!', deleted });
+
+      const pop_cmts = await Comment.find(
+        { reply: mongoose.Types.ObjectId(req.params.commentId) },
+        (err, cmts) => {
+          cmts.forEach((cmt) => {
+            cmt.updateOne(
+              {
+                $pull: { reply: mongoose.Types.ObjectId(req.params.commentId) },
+              },
+              function (err) {
+                if (err) {
+                  console.log(err);
+                }
+              }
+            );
+          });
+        }
+      )
+        .clone()
+        .catch(function (err) {
+          console.log(err);
+        });
+      res.json({
+        success: true,
+        message: 'delete comment successfully!',
+        deleted,
+      });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ success: false, message: 'Internal server error' });
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal server error' });
     }
   },
 
   ulComment: async (req, res) => {
     try {
-      const like_cmt = await Comment.find({ _id: mongoose.Types.ObjectId(req.params.commentId), "likes": mongoose.Types.ObjectId(req.userId) });
-      if (like_cmt.length > 0)
-        {
-          const ul = await Comment.findOneAndUpdate(
-            { _id: req.params.commentId },
-            { $pull: { "likes": mongoose.Types.ObjectId(req.userId) } },
-            { new: true }
-          );  
-        }
-      else {
+      const like_cmt = await Comment.find({
+        _id: mongoose.Types.ObjectId(req.params.commentId),
+        likes: mongoose.Types.ObjectId(req.userId),
+      });
+      if (like_cmt.length > 0) {
+        const ul = await Comment.findOneAndUpdate(
+          { _id: req.params.commentId },
+          { $pull: { likes: mongoose.Types.ObjectId(req.userId) } },
+          { new: true }
+        );
+      } else {
         const ul = await Comment.findOneAndUpdate(
           { _id: mongoose.Types.ObjectId(req.params.commentId) },
-          { $push: { "likes": mongoose.Types.ObjectId(req.userId) } },
+          { $push: { likes: mongoose.Types.ObjectId(req.userId) } },
           { new: true }
-        );  
+        );
       }
 
       res.json({ message: 'React comment successfully' });
