@@ -42,6 +42,10 @@ const io = new Server(http, {
     },
 });
 
+const users = {};
+
+const socketToRoom = {};
+
 io.on('connection', (socket) => {
     console.log(`User Connected: ${socket.id}`);
 
