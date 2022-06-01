@@ -34,9 +34,11 @@ const updateRefreshToken = async (user, refreshToken) => {
     }
 };
 
-const userCtrl = {
+const authCtrl = {
     register: async (req, res) => {
-        const {values: {email, name, phone, gender, BirthDay, pass, confirmpass}}  = req.body;
+        const {
+            values: { email, name, phone, gender, BirthDay, pass, confirmpass },
+        } = req.body;
         //simple validation
         if (!email || !pass) return res.status(400).json({ success: false, message: 'Missing email or password' });
 
@@ -58,7 +60,7 @@ const userCtrl = {
                 dateofbirth: BirthDay,
                 password: hashedPassword,
             });
-            jwt
+            jwt;
             const tokens = generateTokens(newUser);
 
             await newUser.save();
@@ -121,7 +123,13 @@ const userCtrl = {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
     },
-    logout: async (req, res) => {},
+    logout: async (req, res) => {
+        if (req.userId) {
+            return res.status(200).json('Logged out!');
+        } else {
+            return res.status(500).json('Internal server error!');
+        }
+    },
 };
 
-module.exports = userCtrl;
+module.exports = authCtrl;
