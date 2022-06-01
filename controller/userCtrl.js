@@ -89,7 +89,7 @@ const userCtrl = {
             const unfollowUser = await User.findOneAndUpdate(
                 { _id: req.userId },
                 {
-                    $pull: { following: req.params.id },
+                    $pull: { followers: req.params.id },
                 },
                 { new: true }
             ).populate('followers following');
@@ -97,7 +97,7 @@ const userCtrl = {
             const unfollowerUser = await User.findOneAndUpdate(
                 { _id: req.params.id },
                 {
-                    $pull: { followers: req.userId },
+                    $pull: { following: req.userId },
                 },
                 { new: true }
             );

@@ -14,7 +14,7 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "sonlam@gmail.com",
+    "email": "giathai@gmail.com",
     "password": "123"
 }
 
@@ -191,7 +191,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 ###
 POST http://localhost:3001/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGIzZWZhYjY5MmNkNTdkMTQyOGMiLCJpYXQiOjE2NTMwNzEzNTYsImV4cCI6MTY1MzEwNzM1Nn0.GedAjDZpuDt708L8vNApGNF6bBPkLHNuxEKUpKE5YtQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTQwMDcyMTksImV4cCI6MTY1NDA0MzIxOX0.V94iQpj3d1HXP0f8TKZ_HtysenJCi-V4Fd_8Ra0FUGg
 
 {
     "content": "Khang post 3",
@@ -223,3 +223,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5N
 ###
 DELETE http://localhost:3001/api/posts/delete/627950f51d47d6ed235c0cd4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTM4MDI3NDQsImV4cCI6MTY1MzgzODc0NH0.655TUtw5GK1DzUobiD5faE3xvkT75OA2SK0LqhR9kxQ
+
+###
+GET http://localhost:3001/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTQwMDcyMTksImV4cCI6MTY1NDA0MzIxOX0.V94iQpj3d1HXP0f8TKZ_HtysenJCi-V4Fd_8Ra0FUGg
+
+###
+POST http://localhost:3001/api/comments/627950191d47d6ed235c0cc2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2Mjc5NGI1NGZhYjY5MmNkNTdkMTQyOGYiLCJpYXQiOjE2NTQwMDcyMTksImV4cCI6MTY1NDA0MzIxOX0.V94iQpj3d1HXP0f8TKZ_HtysenJCi-V4Fd_8Ra0FUGg
+Content-Type: application/json
+
+{
+    "content": "Khang comment"
+}
