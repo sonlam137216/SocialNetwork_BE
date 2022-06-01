@@ -201,6 +201,30 @@ const userCtrl = {
         }
     },
 
+    updateAvt: async (req, res) => {
+        try {
+            const {  avatar } = req.body;
+            const updatedUser = await User.findOneAndUpdate(
+                { _id: req.userId },
+                {
+                    avatar,
+                },
+                {
+                    new: true,
+                }
+            );
+
+            res.json({
+                success: true,
+                message: 'Updated successfully',
+                user: updatedUser,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ success: false, message: 'Internal server error!' });
+        }
+    },
+
     getUserInfo: async (req, res) => {
         try {
             const user = await User.findById(req.params.id).populate('followers following');

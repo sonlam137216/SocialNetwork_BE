@@ -21,6 +21,7 @@ router.post("/users", verifyToken, userCtrl.getUsers);
 
 //update user
 router.post("/update", verifyToken, userCtrl.updateUser),
+router.post("/updateAvt", verifyToken, userCtrl.updateAvt),
   //get list followers
   // router.get('/list-followers', verifyToken, userCtrl.getListFollowers)
   // get list followings
